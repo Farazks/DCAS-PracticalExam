@@ -1,0 +1,9 @@
+﻿@charset "utf-8";
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+    /*body{ background-color:#FF0000;}*/
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 1) {
+    /*body { background-color: #0000FF; }*/
+}

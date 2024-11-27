@@ -1,0 +1,519 @@
+﻿/*html {
+    background: url('../images/backgroundNew.jpg') no-repeat center center fixed !important;
+    -webkit-background-size: cover !important;
+    -moz-background-size: cover !important;
+    -o-background-size: cover !important;
+    background-size: cover !important;
+}*/
+
+/*body {*/
+    /*background-color: #42413C;*/
+    /*margin: 0;
+    padding: 0;
+    color: #000;
+    background: url('../images/backgroundNew.jpg') no-repeat center center fixed !important;
+    -webkit-background-size: cover !important;
+    -moz-background-size: cover !important;
+    -o-background-size: cover !important;
+    background-size: cover !important;
+}*/
+
+/* ~~ Element/tag selectors ~~ */
+ul, ol, dl { /* Due to variations between browsers, it's best practices to zero padding and margin on lists. For consistency, you can either specify the amounts you want here, or on the list items (LI, DT, DD) they contain. Remember that what you do here will cascade to the .nav list unless you write a more specific selector. */
+    padding: 0;
+    margin: 0;
+}
+
+/*h1, h2, h3, h4, h5, h6, p {
+    margin-top: 0;*/ /* removing the top margin gets around an issue where margins can escape from their containing div. The remaining bottom margin will hold it away from any elements that follow. */
+    /*padding-right: 15px;
+    padding-left: 15px;*/ /* adding the padding to the sides of the elements within the divs, instead of the divs themselves, gets rid of any box model math. A nested div with side padding can also be used as an alternate method. */
+/*}*/
+
+a img { /* this selector removes the default blue border displayed in some browsers around an image when it is surrounded by a link */
+    border: none;
+}
+
+/* ~~ Styling for your site's links must remain in this order - including the group of selectors that create the hover effect. ~~ */
+a:link {
+    text-decoration: none; /* unless you style your links to look extremely unique, it's best to provide underlines for quick visual identification */
+}
+
+a:visited {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+a:hover, a:active, a:focus { /* this group of selectors will give a keyboard navigator the same hover experience as the person using a mouse. */
+    text-decoration: none;
+}
+
+/* ~~this fixed width container surrounds the other divs~~ */
+.mycontainer {
+    box-shadow: 0 0 20px black;
+}
+
+/* ~~ the header is not given a width. It will extend the full width of your layout. It contains an image placeholder that should be replaced with your own linked logo ~~ */
+.header {
+    background-color: #06F;
+}
+
+    .header A {
+        text-decoration: none;
+        color: #fff;
+        font-size: 16px;
+        padding-left: 10px;
+    }
+
+        .header A:hover {
+            text-decoration: none;
+            color: #CCC;
+            font-size: 16px;
+            padding-left: 10px;
+        }
+
+.sidebar1 {
+    float: right;
+    width: 180px;
+    background-color: #1254C2;
+    padding-bottom: 10px;
+    display: none;
+}
+
+.content {
+    padding: 10px 0;
+    width: 100%;
+    display: inline-block;
+}
+
+
+    /* ~~ This grouped selector gives the lists in the .content area space ~~ */
+    .content ul, .content ol {
+        padding: 0 15px 15px 40px; /* this padding mirrors the right padding in the headings and paragraph rule above. Padding was placed on the bottom for space between other elements on the lists and on the left to create the indention. These may be adjusted as you wish. */
+    }
+
+/* ~~ The navigation list styles (can be removed if you choose to use a premade flyout menu like Spry) ~~ */
+ul.nav {
+    list-style: none; /* this removes the list marker */
+    border-top: 1px solid #1254C2; /* this creates the top border for the links - all others are placed using a bottom border on the LI */
+    margin-bottom: 15px; /* this creates the space between the navigation on the content below */
+}
+
+    ul.nav li {
+        border-bottom: 1px solid #1254C2; /* this creates the button separation */
+    }
+
+    ul.nav a, ul.nav a:visited { /* grouping these selectors makes sure that your links retain their button look even after being visited */
+        padding: 5px 5px 5px 15px;
+        display: block; /* this gives the link block properties causing it to fill the whole LI containing it. This causes the entire area to react to a mouse click. */
+        width: 160px; /*this width makes the entire button clickable for IE6. If you don't need to support IE6, it can be removed. Calculate the proper width by subtracting the padding on this link from the width of your sidebar container. */
+        color: #ffffff;
+        font-family: Tahoma, Geneva, sans-serif;
+        font-size: 10pt;
+        text-decoration: none;
+        background-color: #⁮⁮0C8AD6;
+    }
+
+        ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background and text color for both mouse and keyboard navigators */
+            background-color: #0C8AD6;
+            color: #E6E6E6;
+            font-family: Tahoma, Geneva, sans-serif;
+            font-size: 10pt;
+        }
+
+/* ~~ The footer ~~ */
+.myfooter {
+    padding: 10px 0;
+    background-color: #F31414;
+    position: relative; /* this gives IE6 hasLayout to properly clear */
+    clear: both; /* this clear property forces the .mycontainer to understand where the columns end and contain them */
+}
+
+    .myfooter > p {
+        color: white;
+        font-size: 10pt;
+        display: block;
+        margin: 0 auto;
+    }
+/* ~~ miscellaneous float/clear classes ~~ */
+.fltrt { /* this class can be used to float an element right in your page. The floated element must precede the element it should be next to on the page. */
+    float: right;
+    margin-left: 8px;
+}
+
+.fltlft { /* this class can be used to float an element left in your page. The floated element must precede the element it should be next to on the page. */
+    float: left;
+    margin-right: 8px;
+}
+
+.clearfloat { /* this class can be placed on a <br /> or empty div as the final element following the last floated div (within the #container) if the #footer is removed or taken out of the #container */
+    clear: both;
+    height: 0;
+    font-size: 1px;
+    line-height: 0px;
+}
+
+.mycontainer > .content > div > label {
+    width: 25%;
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;
+    vertical-align: top;
+    font-family: tahoma;
+    font-size: 10pt;
+    color: #333;
+}
+
+.mycontainer > .content > div > div > label {
+    width: 52%;
+    float: right;
+    padding-left: 10px;
+    padding-right: 2px;
+}
+
+.mycontainer > .content > div > div {
+    margin-right: 7px;
+    display: inline-block;
+    width: 70%;
+    font-family: tahoma;
+    font-size: 8pt;
+    color: #333;
+}
+
+    .mycontainer > .content > div > div > input {
+        width: 100%;
+        height: 25px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+.txtReceiversnameStyle {
+    width: 90%;
+    height: 25px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.textAreaBig {
+    width: 100%;
+}
+
+.mycontainer > .content > div {
+    margin: 0 0 10px 3px;
+}
+
+.text_area {
+    width: 48% !important;
+    text-align: right !important;
+    vertical-align: top;
+}
+
+.clear_area {
+    height: 5px;
+    clear: both;
+    width: 100%;
+}
+
+
+input#saveForm {
+    padding: 4px 20px;
+    /*give the background a gradient*/
+    background: #ff0404; /*fallback for browsers that don't support gradients*/
+    background: -webkit-linear-gradient(top, #⁮ff0404, #⁮dc0000);
+    background: -moz-linear-gradient(top, #⁮ff0404, #⁮dc0000);
+    background: -o-linear-gradient(top, #⁮ff0404, #⁮dc0000);
+    background: linear-gradient(top, #⁮ff0404, #⁮dc0000);
+    border: 2px outset #dad9d8;
+    /*style the text*/
+    font-family: Andika, Arial, sans-serif; /*Andkia is available at http://www.google.com/webfonts/specimen/Andika*/
+    font-size: 1.1em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0px 1px 10px #000;
+    /*add to small curve to the corners of the button*/
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    /*give the button a drop shadow*/
+    -webkit-box-shadow: rgba(0, 0, 0, .55) 0 1px 6px;
+    -moz-box-shadow: rgba(0, 0, 0, .55) 0 1px 6px;
+    box-shadow: rgba(0, 0, 0, .55) 0 1px 6px;
+    margin: 0 auto;
+    display: block;
+}
+    /***NOW STYLE THE BUTTON'S HOVER STATE***/
+    input#saveForm:hover {
+        border: 2px solid #dad9d8;
+        margin: 0 auto;
+        display: block;
+    }
+
+hr {
+    border-top: 1px dotted #dcdcdc !important;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    width: 98%;
+}
+
+.mycontainer > .header > a > img {
+    width: 960px;
+}
+
+#modalloadingImg {
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 16pt;
+    flex: 1;
+    text-align: center;
+}
+
+#modal-background {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .50;
+    -webkit-opacity: .5;
+    -moz-opacity: .5;
+    z-index: 1000;
+    background-color: #000000;
+    filter: alpha(opacity=60);
+}
+
+#modal-content {
+    background-color: #333;
+    border-radius: 10px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    box-shadow: 0 0 20px 0 #222;
+    -webkit-box-shadow: 0 0 20px 0 #222;
+    -moz-box-shadow: 0 0 20px 0 #222;
+    display: flex;
+    align-items: center;
+    height: 100px;
+    left: 50%;
+    margin: -120px 0 0 -160px;
+    padding: 10px;
+    position: fixed;
+    top: 50%;
+    width: 400px;
+    z-index: 1000;
+}
+
+    #modal-background.active, #modal-content.active {
+        display: block;
+    }
+
+​
+.switch {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -25px !important;
+    margin-top: -25px !important;
+}
+
+.switch label {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: block;
+}
+
+.switch input {
+    opacity: 0;
+    z-index: 100;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* DEMO 1 */
+
+.switch.demo1 {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -25px !important;
+    margin-top: -25px !important;
+}
+
+    .switch.demo1 label {
+        border-radius: 50%;
+        background: #eaeaea;
+        box-shadow: 0 3px 5px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -5px 5px rgba(100,100,100,0.1), inset 0 5px 5px rgba(255,255,255,0.3);
+    }
+
+        .switch.demo1 label:after {
+            content: "";
+            position: absolute;
+            top: -8%;
+            right: -8%;
+            bottom: -8%;
+            left: -8%;
+            z-index: -1;
+            border-radius: inherit;
+            background: #ddd;
+            background: -moz-linear-gradient(#ccc, #fff);
+            background: -ms-linear-gradient(#ccc, #fff);
+            background: -o-linear-gradient(#ccc, #fff);
+            background: -webkit-gradient(linear, 0 0, 0 100%, from(#ccc), to(#fff));
+            background: -webkit-linear-gradient(#ccc, #fff);
+            background: linear-gradient(#ccc, #fff);
+            box-shadow: inset 0 2px 1px rgba(0,0,0,0.15), 0 2px 5px rgba(200,200,200,0.1);
+        }
+
+        .switch.demo1 label:before {
+            content: "";
+            position: absolute;
+            width: 20%;
+            height: 20%;
+            border-radius: inherit;
+            left: 40%;
+            top: 40%;
+            background: #969696;
+            background: radial-gradient(40% 35%, #ccc, #969696 60%);
+            box-shadow: inset 0 2px 4px 1px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,1), inset 0 1px 0 white;
+        }
+
+    .switch.demo1 input:checked ~ label {
+        background: #dedede;
+        background: -moz-linear-gradient(#dedede, #fdfdfd);
+        background: -ms-linear-gradient(#dedede, #fdfdfd);
+        background: -o-linear-gradient(#dedede, #fdfdfd);
+        background: -webkit-gradient(linear, 0 0, 0 100%, from(#dedede), to(#fdfdfd));
+        background: -webkit-linear-gradient(#dedede, #fdfdfd);
+        background: linear-gradient(#dedede, #fdfdfd);
+    }
+
+        .switch.demo1 input:checked ~ label:before {
+            background: #25d025;
+            background: radial-gradient(40% 35%, #5aef5a, #25d025 60%);
+            box-shadow: inset 0 3px 5px 1px rgba(0,0,0,0.1), 0 1px 0 rgba(255,255,255,0.4), 0 0 10px 2px rgba(0, 210, 0, 0.5);
+        }
+
+/* DEMO 2 */
+
+.rcorners1 {
+    border-radius: 25px;
+    border: solid 3px #157EB0;
+    background-color: rgba(27,150,241,0.5);
+    padding: 10px;
+    cursor: pointer;
+    width: 200px;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 14px;
+    height: 40px;
+    text-align: center;
+    color: white;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.rcorners2 {
+    border-radius: 25px;
+    border: solid 3px #AA2225;
+    background-color: rgba(215,53,57,0.5);
+    padding: 10px;
+    cursor: pointer;
+    width: 200px;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 14px;
+    height: 40px;
+    text-align: center;
+    color: white;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#RegMainpageDiv {
+    margin-top: 20%;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center
+}
+
+.sigButton {
+    width: 120px !important;
+}
+
+.rdoFullFilReq {
+    width: 5% !important;
+    height: 15px !important;
+}
+
+.selmenu {
+    width: 100% !important;
+    height: 28px !important;
+}
+
+.noteBottom {
+    width: 500px !important;
+    height: 70px !important;
+    background-color: #FDE9D7 !important;
+    margin-left: 40px !important;
+    padding-left: 10px !important;
+    border: solid 1px #F5CA78;
+}
+
+.formFooter {
+    margin-left: 40px !important;
+}
+
+.formSpan {
+    font-size: 9pt;
+}
+
+.professionalDiv {
+    width: 25% !important;
+    display: inline-block !important;
+    margin-right: 0px !important;
+    vertical-align: top;
+    font-family: tahoma;
+    font-size: 10pt !important;
+}
+
+.professionalDiv1 {
+    width: 20% !important;
+    display: inline-block !important;
+    margin-right: 0px !important;
+    vertical-align: top;
+    font-family: tahoma;
+    font-size: 10pt;
+}
+
+.professionalDiv2 {
+    width: 15% !important;
+    display: inline-block !important;
+    margin-right: 0px !important;
+    vertical-align: top;
+    font-family: tahoma;
+    font-size: 10pt;
+}
+
+.professionalDiv3 {
+    width: 10% !important;
+    display: inline-block !important;
+    margin-right: 0px !important;
+    vertical-align: top;
+    font-family: tahoma;
+    font-size: 10pt;
+}
+
+.professionalDiv4 {
+    width: 10% !important;
+    display: inline-block !important;
+    margin-right: 0px !important;
+    vertical-align: top;
+    font-family: tahoma;
+    font-size: 10pt;
+}
+
+.form-control {
+    padding: 0px 0px !important;
+}

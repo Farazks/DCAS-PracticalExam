@@ -1,0 +1,667 @@
+﻿@model DCAS_PracticalExam.Models.MedicalAssessmentEvaluationFields
+
+@{
+    ViewData["Title"] = "ViewMedicalReport";
+}
+
+
+<style>
+    /*This styling used for removing ul li Dote*/
+    ul {
+        list-style-type: none;
+    }
+</style>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="mycontainer p-2">
+        <h2 class="text-center" style="color: #c00000">
+            Evaluation Form for Medical Assessment
+        </h2>
+        <h4 class="text-center" style="color: #002060">
+            Ambulance Regulation Services Section
+        </h4>
+        <div>
+            <hr />
+        </div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="CandidateName">Candidate Name</label>
+                    <input runat="server" id="CandidateName" tabindex="1" name="CandidateName" asp-for="CandidateName" class="form-control" type="text" readonly />
+                    <span asp-validation-for="CandidateName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="TestDate">Test Date</label>
+                    <input asp-for="TestDate" runat="server" type="text" tabindex="2" class="form-control" id="datetimepicker" readonly />
+                    <span asp-validation-for="TestDate" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="EstablishmentName">Establishment Name</label>
+                    <input runat="server" id="EstablishmentName" tabindex="1" name="EstablishmentName" asp-for="EstablishmentName" class="form-control" type="text" readonly />
+                    <span asp-validation-for="EstablishmentName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Designation">Designation</label>
+                    <input asp-for="Designation" runat="server" type="text" tabindex="2" class="form-control" id="datetimepicker" readonly />
+                    <span asp-validation-for="Designation" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="CRMRequest">CRM Request</label>
+                    <input asp-for="CRMRequest" runat="server" type="text" tabindex="2" class="form-control" id="datetimepicker" readonly />
+                    <span asp-validation-for="CRMRequest" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div>
+            <hr />
+        </div>
+        <div>
+            <table class="table table-striped table-bordered" width="600" border="0" cellspacing="0" cellpadding="0">
+                <thead style="background: #002060; color: #fff">
+                <th class="col-xs-8" colspan="3">Critical Performance Steps</th>
+                <th class="col-xs-4">Points</th>
+                </thead>
+                <tr style="display: none">
+                    <td>Name</td>
+                    <td>
+                        An Establishment shall not use a name which is substantially
+                        the same as the name of another ambulance service licensed by
+                        DCAS unless the applicant is part of the same organization or
+                        affiliated organization of the other services.
+                    </td>
+                    <td>
+                        <input runat="server" type="checkbox" name="StandardName" id="StandardName" value="Yes" />
+                        <label for="StandardName"></label>
+                    </td>
+                    <td>
+                        <textarea runat="server" class="textAreaBig form-control" name="txtCmts" tabindex="6" id="txtRemarks1"
+                                  rows="3" cols="10"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>PPE</td>
+                    <td colspan="2">
+                        1.1 Takes or verbalizes body substance isolation precaution
+                    </td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep1" disabled readonly />
+                        <span asp-validation-for="PointsStep1" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="4">Scene Size-up</td>
+                    <td colspan="2">2.1 Determines if the scene is safe</td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep2" disabled readonly />
+                        <span asp-validation-for="PointsStep2" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">2.2 Determines the Nature of illness</td>
+
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep3" disabled readonly />
+                        <span asp-validation-for="PointsStep3" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">2.3 Determines the number of patients</td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep4" disabled readonly />
+                        <span asp-validation-for="PointsStep4" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">2.4 Requests additional help if necessary</td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep5" disabled readonly />
+                        <span asp-validation-for="PointsStep5" class="text-danger"></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="10">Initial Assessment</td>
+                    <td colspan="2">
+                        3.1 Verbalizes general impression of patient
+                    </td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep6" disabled readonly />
+                        <span asp-validation-for="PointsStep6" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">3.2 Determines responsiveness</td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep7" disabled readonly />
+                        <span asp-validation-for="PointsStep7" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        3.3 Determines chief complaint / apparent life threats
+                    </td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep8" disabled readonly />
+                        <span asp-validation-for="PointsStep8" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="3">3.4 Assess airway and breathing</td>
+                    <td>3.4.1 Assessment</td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep9" disabled readonly />
+                        <span asp-validation-for="PointsStep9" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3.4.2 Initiates appropriate oxygen therapy</td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep10" disabled readonly />
+                        <span asp-validation-for="PointsStep10" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3.4.3 Assures adequate ventilation</td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep11" disabled readonly />
+                        <span asp-validation-for="PointsStep11" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="3">3.5 Assess circulation</td>
+                    <td>3.5.1 Assesses pulse</td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep12" disabled readonly />
+                        <span asp-validation-for="PointsStep12" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3.5.2 Assesses skin (color, temperature & condition)</td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep13" disabled readonly />
+                        <span asp-validation-for="PointsStep13" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3.5.3 Assesses skin (color, temperature & condition)</td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep14" disabled readonly />
+                        <span asp-validation-for="PointsStep14" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        3.6 Identifies priority patients. Makes transport decisions
+                    </td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep15" disabled readonly />
+                        <span asp-validation-for="PointsStep15" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Assessment</td>
+                    <td colspan="2">
+                        4.1 Assessed history of present illness, and state at least 4
+                        signs & symptoms as mentioned below. (4 pts)
+                    </td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep16" disabled readonly />
+                        <span asp-validation-for="PointsStep16" class="text-danger"></span>
+                    </td>
+                </tr>
+            </table>
+            <table class="table table-striped table-bordered" width="800" border="0" cellspacing="0" cellpadding="0">
+                <thead style="background: #002060; color: #fff">
+                <th class="col-xs-1">Respiratory</th>
+                <th class="col-xs-1">Cardiac</th>
+                <th class="col-xs-1">Altered Mental Status</th>
+                <th class="col-xs-1">Allergic Reaction</th>
+                </thead>
+                <tr>
+                    <td>
+                        <ul>
+                            <li><input type="checkbox" asp-for="RespiRespiratory1" disabled readonly /> Onset</li>
+                            <li><input type="checkbox" asp-for="RespiRespiratory2" disabled readonly /> Provokes</li>
+                            <li><input type="checkbox" asp-for="RespiRespiratory3" disabled readonly /> Quality</li>
+                            <li><input type="checkbox" asp-for="RespiRespiratory4" disabled readonly /> Radiates</li>
+                            <li><input type="checkbox" asp-for="RespiRespiratory5" disabled readonly /> Severity</li>
+                            <li><input type="checkbox" asp-for="RespiRespiratory6" disabled readonly /> Time</li>
+                            <li><input type="checkbox" asp-for="RespiRespiratory7" disabled readonly /> Interventions</li>
+                            @*
+                                <li>Onset</li>
+                                <li>Provokes</li>
+                                <li>Quality</li>
+                                <li>Radiates</li>
+                                <li>Severity</li>
+                                <li>Time</li>
+                                <li>Interventions</li>*@
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li><input type="checkbox" asp-for="Cardiac1" disabled readonly /> Onset</li>
+                            <li><input type="checkbox" asp-for="Cardiac2" disabled readonly /> Provokes</li>
+                            <li><input type="checkbox" asp-for="Cardiac3" disabled readonly /> Quality</li>
+                            <li><input type="checkbox" asp-for="Cardiac4" disabled readonly /> Radiates</li>
+                            <li><input type="checkbox" asp-for="Cardiac5" disabled readonly />Severity</li>
+                            <li><input type="checkbox" asp-for="Cardiac6" disabled readonly />Time</li>
+                            <li><input type="checkbox" asp-for="Cardiac7" disabled readonly />Interventions</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li><input type="checkbox" asp-for="AlteredMental1" disabled readonly /> Description of the episode</li>
+                            <li><input type="checkbox" asp-for="AlteredMental2" disabled readonly /> Onset</li>
+                            <li><input type="checkbox" asp-for="AlteredMental3" disabled readonly /> Duration</li>
+                            <li><input type="checkbox" asp-for="AlteredMental4" disabled readonly /> Associated symptoms</li>
+                            <li><input type="checkbox" asp-for="AlteredMental5" disabled readonly /> Evidence of trauma</li>
+                            <li><input type="checkbox" asp-for="AlteredMental6" disabled readonly /> Interventions</li>
+                            <li><input type="checkbox" asp-for="AlteredMental7" disabled readonly /> Seizures</li>
+                            <li><input type="checkbox" asp-for="AlteredMental8" disabled readonly /> Fever</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li><input type="checkbox" asp-for="AllergicReaction1" disabled readonly /> History of allergies</li>
+                            <li><input type="checkbox" asp-for="AllergicReaction2" disabled readonly /> What were you exposed to</li>
+                            <li><input type="checkbox" asp-for="AllergicReaction3" disabled readonly /> How were you exposed</li>
+                            <li><input type="checkbox" asp-for="AllergicReaction4" disabled readonly /> Effects</li>
+                            <li><input type="checkbox" asp-for="AllergicReaction5" disabled readonly /> Progression</li>
+                            <li><input type="checkbox" asp-for="AllergicReaction6" disabled readonly /> Interventions</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+            <table class="table table-striped table-bordered" width="800" border="0" cellspacing="0" cellpadding="0">
+                <thead style="background: #002060; color: #fff">
+                <th class="col-xs-3">Poisoning/ Overdose</th>
+                <th class="col-xs-3">Environmental Emergency</th>
+                <th class="col-xs-3">Obstetrics</th>
+                <th class="col-xs-3">Behavioral</th>
+                </thead>
+                <tr>
+                    <td>
+                        <ul>
+                            <li><input type="checkbox" asp-for="PoisoningOverdose1" disabled readonly /> Substance</li>
+                            <li><input type="checkbox" asp-for="PoisoningOverdose2" disabled readonly /> When did you ingest/become exposed</li>
+                            <li><input type="checkbox" asp-for="PoisoningOverdose3" disabled readonly /> How much did you ingest</li>
+                            <li><input type="checkbox" asp-for="PoisoningOverdose4" disabled readonly /> Over what time period</li>
+                            <li><input type="checkbox" asp-for="PoisoningOverdose5" disabled readonly /> Interventions</li>
+                            <li><input type="checkbox" asp-for="PoisoningOverdose6" disabled readonly /> Estimated weight</li>
+                            <li><input type="checkbox" asp-for="PoisoningOverdose7" disabled readonly /> Effects</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li><input type="checkbox" asp-for="EnvironmentalEmergency1" disabled readonly /> Source</li>
+                            <li><input type="checkbox" asp-for="EnvironmentalEmergency2" disabled readonly /> Environment</li>
+                            <li><input type="checkbox" asp-for="EnvironmentalEmergency3" disabled readonly /> Duration</li>
+                            <li><input type="checkbox" asp-for="EnvironmentalEmergency4" disabled readonly /> Loss of consciousness</li>
+                            <li><input type="checkbox" asp-for="EnvironmentalEmergency5" disabled readonly /> Effects (general or local)</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li><input type="checkbox" asp-for="Obstetrics1" disabled readonly /> Are you pregnant</li>
+                            <li><input type="checkbox" asp-for="Obstetrics2" disabled readonly /> How long have you been pregnant</li>
+                            <li><input type="checkbox" asp-for="Obstetrics3" disabled readonly /> Pain or contractions</li>
+                            <li><input type="checkbox" asp-for="Obstetrics4" disabled readonly /> Bleeding or discharge</li>
+                            <li><input type="checkbox" asp-for="Obstetrics5" disabled readonly /> Do you feel the need to push</li>
+                            <li><input type="checkbox" asp-for="Obstetrics6" disabled readonly /> Last menstrual period</li>
+                            <li><input type="checkbox" asp-for="Obstetrics7" disabled readonly /> Crowning</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li><input type="checkbox" asp-for="Behavioral1" disabled readonly /> How do you feel</li>
+                            <li><input type="checkbox" asp-for="Behavioral2" disabled readonly /> Determine suicidal tendencies</li>
+                            <li><input type="checkbox" asp-for="Behavioral3" disabled readonly /> Is the patient a threat to self or others</li>
+                            <li><input type="checkbox" asp-for="Behavioral4" disabled readonly /> Is there a medical problem</li>
+                            <li><input type="checkbox" asp-for="Behavioral5" disabled readonly /> Interventions</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+            <table class="table table-striped table-bordered" width="600" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td colspan="3">5.1 Allergies</td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep17" disabled readonly />
+                        <span asp-validation-for="PointsStep17" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">6.1 Medications</td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep18" disabled readonly />
+                        <span asp-validation-for="PointsStep18" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">7.1 Past Medical History</td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep19" disabled readonly />
+                        <span asp-validation-for="PointsStep19" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">8.1 Events leading to present illness</td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep20" disabled readonly />
+                        <span asp-validation-for="PointsStep20" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        8.2 Performs focused physical examination. Assesses affected
+                        body parts/ system if indicated. Completes Rapid Assessment.
+                    </td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep21" disabled readonly />
+                        <span asp-validation-for="PointsStep21" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">8.3 Vitals (Obtains baseline vital signs)</td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep22" disabled readonly />
+                        <span asp-validation-for="PointsStep22" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        8.4 Interventions: Obtains medical direction or verbalizes
+                        standing order for medication interventions and verbalizes
+                        proper Additional intervention/treatment.
+                    </td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep23" disabled readonly />
+                        <span asp-validation-for="PointsStep23" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="4">On-going Assessment (verbalized)</td>
+                    <td colspan="2">8.5.1 Repeats initial assessment.</td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep24" disabled readonly />
+                        <span asp-validation-for="PointsStep24" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">8.5.2 Repeats vital signs</td>
+
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep25" disabled readonly />
+                        <span asp-validation-for="PointsStep25" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        8.5.3 Repeats focused assessment regarding patient complaint
+                    </td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep26" disabled readonly />
+                        <span asp-validation-for="PointsStep26" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">8.5.4 Checks interventions</td>
+                    <td>
+                        <input type="checkbox" asp-for="PointsStep27" disabled readonly />
+                        <span asp-validation-for="PointsStep27" class="text-danger"></span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <hr />
+        </div>
+        <div>
+            <table style="width: 50%; border: 1px solid black;">
+                <tr>
+                    <td colspan="4" style="padding: 2px 35px; color: red">
+                        Critical Criteria
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div class="form-check" style="padding: 2px 35px">
+                            <input class="form-check-input" type="checkbox" value="true" asp-for="CriteriaCheck1" id="CriteriaCheck1" disabled readonly />
+                            <label class="form-check-label" asp-for="CriteriaCheck1">
+                                Did not take or verbalize body substance isolation
+                                precautions
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div class="form-check" style="padding: 2px 35px">
+                            <input class="form-check-input" type="checkbox" value="true" asp-for="CriteriaCheck2" id="CriteriaCheck2" disabled readonly />
+                            <label class="form-check-label" asp-for="CriteriaCheck2">
+                                Did not provide high concentration of oxygen
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div class="form-check" style="padding: 2px 35px">
+                            <input class="form-check-input" type="checkbox" value="true" id="CriteriaCheck3" asp-for="CriteriaCheck3" disabled readonly />
+                            <label class="form-check-label" asp-for="CriteriaCheck3">
+                                Did not find or manage problems associated with airway,
+                                breathing, hemorrhage or shock (hypoperfusion)
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div class="form-check" style="padding: 2px 35px">
+                            <input class="form-check-input" type="checkbox" value="true" id="CriteriaCheck4" asp-for="CriteriaCheck4" disabled readonly />
+                            <label class="form-check-label" asp-for="CriteriaCheck4">
+                                Did not differentiate patient’s needing transportation
+                                versus continued on scene assessment
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div class="form-check" style="padding: 2px 35px">
+                            <input class="form-check-input" type="checkbox" value="true" id="CriteriaCheck5" asp-for="CriteriaCheck5" disabled readonly />
+                            <label class="form-check-label" asp-for="CriteriaCheck5">
+                                Does other detailed physical examination before assessing
+                                airway, breathing and circulation
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div class="form-check" style="padding: 2px 35px">
+                            <input class="form-check-input" type="checkbox" value="true" id="CriteriaCheck6" asp-for="CriteriaCheck6" disabled readonly />
+                            <label class="form-check-label" asp-for="CriteriaCheck6">
+                                Did not transport patient within 10 minutes (time limit)
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- Here Comes Total Awarded Points & Obtain Points -->
+        </div>
+
+        <div style="margin-top:20px">
+
+            <table width="100%" class="table table-striped table-hover">
+                <input type="hidden" id="selectedRadio" asp-for="Result" />
+                <tr>
+                    <td class="col-6">
+                        <label>Result</label>
+                    </td>
+                    <td class="col-1">
+                        <label>Pass</label>
+                    </td>
+                    <td class="col-2">
+
+                        <input style="display: block; margin: 0 auto" class="form-check-input" type="radio"
+                               name="RadioDefault" value="Pass" id="myradio"
+                               asp-for="Result" readonly disabled />
+                    </td>
+                    <td class="col-1">
+                        <label>Fail</label>
+                    </td>
+                    <td class="col-2">
+                        <input style="display: block; margin: 0 auto" class="form-check-input" type="radio"
+                               name="RadioDefault" value="Fail" id="myradio"
+                               asp-for="Result" readonly disabled />
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <table class="table table-striped table-bordered" width="600" border="0" cellspacing="0" cellpadding="0">
+            <thead style="background: #002060; color: #fff; text-align: center">
+                <tr>
+                    <th class="col-8">Comments</th>
+                </tr>
+            </thead>
+            <tr>
+                <td>
+                    <textarea runat="server" class="textAreaBig form-control" asp-for="Comments" name="Comments" tabindex="6" id="txtRemarks1" readonly
+                              rows="3" cols="10"></textarea>
+                </td>
+            </tr>
+        </table>
+
+
+        <div class="row w-80 p-3">
+            <div class="text_area col-6">
+                <div>
+                    <label asp-for="Assessor1">Name Of Assesor 1</label>
+                    <input asp-for="Assessor1" class="form-control" readonly />
+
+                </div>
+                <div class="clear_area"></div>
+                <div class="panel panel-default">
+                    <div class="panel-body" id="signature-pad">
+                        <img src="@ViewBag.Sign1"
+                             style="
+                        width: 90%;
+                        height: 200px;
+                        border: 1px ridge #ccc;
+                        border-radius: 5px 5px 10px 15px;" />
+                    </div>
+                </div>
+            </div>
+            <div class="text_area col-6">
+                <div>
+                    <label asp-for="Assessor2">Name Of Assesor 2</label>
+                    <input asp-for="Assessor2" class="form-control" readonly />
+
+                </div>
+                <div class="clear_area"></div>
+                <div class="panel panel-default">
+                    <div class="panel-body" id="signature-padCustomer">
+                        <img src="@ViewBag.Sign2"
+                             style="
+                        width: 90%;
+                        height: 200px;
+                        border: 1px ridge #ccc;
+                        border-radius: 5px 5px 10px 15px;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/signature_pad.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#saveForm").bind("click", function () {
+            if (signaturePad.isEmpty()) {
+                $("[Id*=ImageValInspector1]").val("_blank");
+            } else {
+                var base64 = $("#sigcanvas")[0].toDataURL();
+                base64 = base64.replace("data:image/png;base64,", "");
+                $("[Id*=ImageValInspector1]").val(base64);
+                //window.alert($("#ImageValInspector1").val());
+            }
+
+            if (signaturePadCustomer.isEmpty()) {
+                $("[Id*=ImageValCustomer]").val("_blank");
+            } else {
+                var base64C = $("#canvasCustomer")[0].toDataURL();
+                base64C = base64C.replace("data:image/png;base64,", "");
+                $("[Id*=ImageValCustomer]").val(base64C);
+            }
+
+            var my2ndopt = $('input[name="RadioDefault"]:checked').val(); // Selected Result Radio
+
+            $("#selectedRadio").val(my2ndopt); // Radio Value Passing In Model Property
+        });
+    });
+</script>
+<script lang="ja" type="text/javascript">
+    var wrapper = document.getElementById("signature-pad"),
+        clearButton = wrapper.querySelector("[data-action=clear]"),
+        canvas = wrapper.querySelector("canvas"),
+        signaturePad;
+
+    var wrapperCustomer = document.getElementById("signature-padCustomer"),
+        clearButtonCustomer = wrapperCustomer.querySelector(
+            "[data-action=clearCustomer]"
+        ),
+        canvasCustomer = wrapperCustomer.querySelector("canvas"),
+        signaturePadCustomer;
+
+    function resizeCanvas() {
+        var ratio = window.devicePixelRatio || 1;
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = canvas.offsetHeight * ratio;
+        canvas.getContext("2d").scale(ratio, ratio);
+
+        canvasCustomer.width = canvasCustomer.offsetWidth * ratio;
+        canvasCustomer.height = canvasCustomer.offsetHeight * ratio;
+        canvasCustomer.getContext("2d").scale(ratio, ratio);
+    }
+
+    window.onresize = resizeCanvas;
+    resizeCanvas();
+    signaturePad = new SignaturePad(canvas);
+    var el = document.getElementById("clear");
+    if (el) {
+        clearButtonCustomer.addEventListener("click", function (event) {
+            signaturePad.clear();
+        });
+    }
+
+    var el2 = document.getElementById("clearCustomer");
+    signaturePadCustomer = new SignaturePad(canvasCustomer);
+    if (el2) {
+        clearButtonCustomer.addEventListener("click", function (event) {
+            signaturePadCustomer.clear();
+        });
+    }
+
+    var uri = "api/signatures";
+</script>
