@@ -21,6 +21,10 @@ namespace DCAS_PracticalExam
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.ConfigureKestrel(options =>
+                    {
+                        options.AddServerHeader = false;
+                    });
                 });
     }
 }
