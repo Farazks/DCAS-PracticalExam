@@ -132,7 +132,7 @@ namespace DCAS_PracticalExam
             //This method use for resolving clickjacking by M.O
             app.Use(async (context, next) =>
             {
-                context.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN"); 
+                context.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
                 await next();
             });
             app.UseAuthentication();
