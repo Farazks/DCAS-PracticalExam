@@ -101,12 +101,12 @@ namespace DCAS_PracticalExam.Controllers
 
                 //validate user from active directory
                 var result = new Microsoft.AspNetCore.Identity.SignInResult();
-#if (!DEBUG)
-                var response = await _api.VerifyUserAsync(signInModel.Email, signInModel.Password);
-                #else
+               /* #if (!DEBUG)
+               */ var response = await _api.VerifyUserAsync(signInModel.Email, signInModel.Password);
+               /* #else
                 var response = true;
-#endif
-                if (!response)
+                #endif
+               */ if (!response)
                 {
                     //what to do
                     // so doing don't know right or wrong but it will work.

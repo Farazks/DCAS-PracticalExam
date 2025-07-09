@@ -6,7 +6,6 @@
     <title>@ViewData["Title"] - DCAS Practical Exam</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/Concent.css" />
     <link rel="stylesheet" href="~/css/Globals.css" />
     <link rel="stylesheet" href="~/css/responsive.css" />
     <link rel="stylesheet" href="~/css/formStyle.css" />
@@ -15,9 +14,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 
 </head>
-@{
-    var httpContext = Context.Request.HttpContext;
-}
 <body>
     <header>
         <partial name="_LoginInfo" />
@@ -29,10 +25,6 @@
                     @RenderBody()
                 </main>
             </div>
-            @if (!httpContext.Request.Cookies.TryGetValue("ConsentCookies", out string cookieConsValue))
-            {
-                <partial name="_CookieConsent"   />
-            }
         </div>
     </div>
 
@@ -46,7 +38,6 @@
     <script src="~/js/datatables.min.js" type="text/javascript"></script>
     <script src="~/js/jquery.datetimepicker.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/Concent.js" asp-append-version="true"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 

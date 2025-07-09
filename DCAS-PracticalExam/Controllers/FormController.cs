@@ -239,23 +239,14 @@ namespace DCAS_PracticalExam.Controllers
             Notifications home = new Notifications(configuration);
 
             var result = await formRepository.ViewCPRReportByID(id);
-
-            if (result != null)
+            
+            if(result != null)
             {
-                string Assessor1Sign = string.Empty;
-                string Assessor2Sign = string.Empty;
+                string Assessor1 = Convert.ToBase64String(result.Assessor1Sign);
+                string Assessor1Sign = string.Format("data:image/jpg;base64,{0}", Assessor1);
 
-                if (result.Assessor1Sign != null)
-                {
-                    string Assessor1 = Convert.ToBase64String(result.Assessor1Sign);
-                    Assessor1Sign = string.Format("data:image/jpg;base64,{0}", Assessor1);
-                }
-
-                if (result.Assessor2Sign != null)
-                {
-                    string Assessor2 = Convert.ToBase64String(result.Assessor2Sign);
-                    Assessor2Sign = string.Format("data:image/jpg;base64,{0}", Assessor2);
-                }
+                string Assessor2 = Convert.ToBase64String(result.Assessor2Sign);
+                string Assessor2Sign = string.Format("data:image/jpg;base64,{0}", Assessor2);
 
                 ViewBag.Sign1 = Assessor1Sign;
                 ViewBag.Sign2 = Assessor2Sign;

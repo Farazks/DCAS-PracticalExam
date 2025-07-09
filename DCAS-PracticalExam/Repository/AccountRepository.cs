@@ -56,7 +56,7 @@ namespace DCAS_PracticalExam.Repository
             {
                 IsPersistent = true,
                 ExpiresUtc = DateTime.UtcNow.AddHours(rememberMe),
-                AllowRefresh = true,
+                AllowRefresh = true
             });
         }
 
