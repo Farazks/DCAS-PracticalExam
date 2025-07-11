@@ -1,11 +1,17 @@
 ﻿using DCAS_PracticalExam.Context;
 using DCAS_PracticalExam.General;
+using DCAS_PracticalExam.Helper_Model;
 using DCAS_PracticalExam.HelperModels;
 using DCAS_PracticalExam.Models;
 using DCAS_PracticalExam.Repository;
+using DCAS_PracticalExam.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,12 +25,20 @@ namespace DCAS_PracticalExam.Controllers
         private readonly IFormRepository formRepository;
         private readonly PracticalExamContext db;
         private readonly IConfiguration configuration;
+        private readonly ILogger<FormController> _logger;
+        private readonly IConfiguration _config;
+        private readonly MailSender emailSender;
+
         //private readonly HomeController home;
-        public FormController(IFormRepository formRepository, PracticalExamContext context, IConfiguration myconfig)
+        public FormController(IFormRepository formRepository, PracticalExamContext context, ILogger<FormController> logger, IConfiguration config, IOptions<SmtpConfig> smtpConfigModel)
         {
             this.formRepository = formRepository;
             db = context;
-            configuration = myconfig;
+            configuration = config;
+            _logger = logger;
+            _config = config;
+            emailSender = new MailSender(smtpConfigModel);
+
         }
         public IActionResult Index()
         {
@@ -330,5 +344,129 @@ namespace DCAS_PracticalExam.Controllers
             return View(result);
         }
 
+
+        public async Task<IActionResult> GenerateOtp()
+        {
+            string otp = OtpGenerator.GenerateOTP();
+            string AppId = Request.Query["AppId"];
+            var uInfo = db.Users.Where(s => s.Id == AppId).FirstOrDefault();
+            Otp createOTP = new Otp
+            {
+                Code = otp,
+                FK_AppUserId = AppId
+            };
+
+            await db.Otps.AddAsync(createOTP);
+
+            var saveSuccessful = await db.SaveChangesAsync();
+
+            if (saveSuccessful > 0)
+            {
+
+                //var msg = await EmailService.SendAsync(new()
+                //{
+                //    subject = "Verification OTP",
+                //    recipients = new()
+                //        {
+                //        uInfo.Email
+                //    },
+                //    body = $"Dear {uInfo.FirstName + " " +uInfo.LastName } <br>" +
+                //             $"Your OTP is: {otp} <br>" +
+                //             $"Thank You <br> " +
+                //             $"Dubai Corporation for Ambulance Services"
+                //}, _logger);
+                var body = $"Dear {uInfo.FirstName + " " + uInfo.LastName} <br>" +
+                             $"Your OTP is: {otp} <br>" +
+                             $"Thank You <br> " +
+                             $"Dubai Corporation for Ambulance Services";
+
+                EmailOptions ops = new EmailOptions();
+                ops.toEmail = uInfo.Email;
+                //ops.attachment = pdfBytes;
+                ops.subject = "Verification OTP";
+                ops.body = body;
+                //ops.licenceNo = attachmentName;
+               
+                string message = await emailSender.SendEmailPublic(ops);
+                SmsDto sms = new SmsDto()
+                {
+                    _message = $"Dear Staff {uInfo.FirstName} <br>" +
+                   $"Your OTP is: {otp}\n" +
+                   $"Thank You <br> " +
+                   $"Dubai Corporation for Ambulance Services",
+                    _mobileNo = uInfo.PhoneNumber,
+                };
+
+                SmsService.Send(_config, sms);
+                 
+                return RedirectToAction("VerifyOTP", new { AppId = uInfo.Id });
+            }
+            else
+            {
+                TempData["errMsg"] = "Data is not Successfully Submitted";
+                return RedirectToAction("Index");
+            }
+        }
+
+        
+
+
+        [HttpGet]
+        public ActionResult VerifyOTP()
+        {
+            string employeeId = Request.Query["AppId"];
+
+            if (string.IsNullOrWhiteSpace(employeeId))
+            {
+                return RedirectToAction("VerifyOTP", "Form");
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> VerifyOtp(VerifyOTP model)
+        {
+            // _logger.LogInformation($"\n{DateTime.Now} : Starting Verify OTP Method\n");
+            if (!ModelState.IsValid)
+            {
+                // _logger.LogError($"\n{DateTime.Now} Invalid Entry : {JsonConvert.SerializeObject(model)}\n");
+
+                TempData["errMsg"] = $"Please validate all fields";
+                ModelState.AddModelError("", "Please validate all fields");
+                return View(model);
+            }
+
+            var isOtpValid = await db.Otps.Include(x => x.applicationUsers).FirstOrDefaultAsync(x => x.Code == model.Otp && x.applicationUsers.Id == model.employeeId);
+
+            if (isOtpValid is not null)
+            {
+                if (!isOtpValid.IsExpired)
+                {
+
+                    var userOtp = isOtpValid.applicationUsers.Id;
+                    // _logger.LogInformation($"\n{DateTime.Now} : Successfully passed condition OTP is not expired\n");
+                    isOtpValid.IsExpired = true;
+                    isOtpValid.UsedAt = DateTime.Now;
+
+                    await db.SaveChangesAsync();
+
+                    TempData["msg"] = "You are successfully Logged In!!";
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    TempData["errMsg"] = "This OTP is already expired!!";
+                }
+            }
+            else
+            {
+                TempData["errMsg"] = "The OTP you entered is invalid!!";
+            }
+
+            
+            return RedirectToAction("VerifyOTP", new { AppId = model.employeeId });
+
+        }
     }
 }

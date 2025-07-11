@@ -100,10 +100,10 @@ namespace DCAS_PracticalExam.Controllers
                 }
 
                 //validate user from active directory
-                var result = new Microsoft.AspNetCore.Identity.SignInResult();
+                var result = Microsoft.AspNetCore.Identity.SignInResult.Success;
 #if (!DEBUG)
                 var response = await _api.VerifyUserAsync(signInModel.Email, signInModel.Password);
-                #else
+#else
                 var response = true;
 #endif
                 if (!response)
@@ -112,7 +112,7 @@ namespace DCAS_PracticalExam.Controllers
                     // so doing don't know right or wrong but it will work.
 
                     //pass invalid credential to passwordsignin so after few attempt it can block code
-                    signInModel.Password = "Incorrect zyz";
+                    //signInModel.Password = "Incorrect zyz";
                     result = await accountRepository.PasswordSigninAsync(signInModel);
 
                     //if account is locked
@@ -138,20 +138,20 @@ namespace DCAS_PracticalExam.Controllers
                 {
 
 
-                    if (!string.IsNullOrEmpty(returnUrl))
-                        return LocalRedirect(returnUrl);
+                    //if (!string.IsNullOrEmpty(returnUrl))
+                    //    return LocalRedirect(returnUrl);
                     if (returnUrl == "/")
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("GenerateOtp", "Form", new {appID = user.Id});
                     }
                     else if (returnUrl == "/signup" || returnUrl == "/login")
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("GenerateOtp", "Form", new { appID = user.Id });
                     }
-                    return RedirectToAction(returnUrl, "Home");
+                    return RedirectToAction(returnUrl, "Form", new { appID = user.Id });
                 }//return url setting
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("GenerateOtp", "Form", new { appID = user.Id });
 
             }//if model state is valid
             return View();
@@ -208,6 +208,8 @@ namespace DCAS_PracticalExam.Controllers
                     FirstName = u.FirstName,
                     LastName = u.LastName,
                     Email = u.Email,
+                    EmailConfirmed = u.EmailConfirmed,
+                    PhoneNumber = u.PhoneNumber,
                     roles = await _userManager.GetRolesAsync(u)
 
                 };

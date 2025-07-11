@@ -1,6 +1,7 @@
 ﻿using DCAS_PracticalExam.Context;
 using DCAS_PracticalExam.HelperModels;
 using DCAS_PracticalExam.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,12 @@ namespace DCAS_PracticalExam.Repository
     public class FormRepository : IFormRepository
     {
         private readonly PracticalExamContext db;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public FormRepository(PracticalExamContext db)
+        public FormRepository(PracticalExamContext db, UserManager<ApplicationUser> userManager)
         {
             this.db = db;
+            _userManager = userManager;
         }
 
         public async Task<string> InsertCPREvaluation(CPRAssessmentEvaluationFields data)
@@ -212,6 +215,13 @@ namespace DCAS_PracticalExam.Repository
             {
                 return null;
             }
+        }
+
+
+        public async Task<ApplicationUser> getById(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            return user;
         }
     }
 

@@ -19,6 +19,7 @@ namespace DCAS_PracticalExam.Repository
         Task<CPRAssessmentEvaluationFields> ViewCPRReportByID(int reportID);
         Task<MedicalAssessmentEvaluationFields> ViewMedicalAssessmentReportByID(int reportID);
         Task<TraumaAssessmentEvaluationFields> ViewTraumaAssessmentReportByID(int reportID);
+        Task<ApplicationUser> getById(string id);
 
     }
 }

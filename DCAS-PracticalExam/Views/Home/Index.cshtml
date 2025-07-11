@@ -8,3 +8,9 @@
     <p style="color: #007bff;">DCAS Practical Exams Application</p>
 
 </div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <partial name="_msgs" />
+}

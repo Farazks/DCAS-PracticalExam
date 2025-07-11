@@ -19,5 +19,6 @@ namespace DCAS_PracticalExam.Context
         public DbSet<TraumaAssessmentEvaluationFields> TraumaAssessmentEvaluationFields { get; set; }
         public DbSet<MedicalAssessmentEvaluationFields> MedicalAssessmentEvaluationFields { get; set; }
         public DbSet<EvaluationInstructorsFields> EvaluationInstructorsFields { get; set; }
+        public DbSet<Otp> Otps { get; set; }
     }
 }

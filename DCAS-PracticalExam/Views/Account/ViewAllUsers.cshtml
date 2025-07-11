@@ -31,9 +31,11 @@
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Email</th>
+                        <th>Mobile Number</th>
+                        <th>Status</th>
                         @*<th>Roles</th>*@
-                        <th>Activate</th>
-                        <th>De-Activate</th>
+                        @* <th>Activate</th>
+                        <th>De-Activate</th> *@
                     </tr>
                 </thead>
                 <tbody>
@@ -43,15 +45,30 @@
                             <td>@item.FirstName</td>
                             <td>@item.LastName</td>
                             <td>@item.Email</td>
+                            <td>@item.PhoneNumber</td>
+                                <td>
+                                    @if (item.EmailConfirmed)
+                                    {
+                                        <a asp-action="DeActiveUser" asp-route-uid="@item.Id" asp-controller="Account" class="btn btn-danger">
+                                            DeActivate User <i class="fas fa-lock me-1"></i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="ActiveUser" asp-route-uid="@item.Id" asp-controller="Account" class="btn btn-success">
+                                            Activate User <i class="fas fa-unlock me-1"></i>
+                                        </a>
+                                    }
+                                </td>
+
                             @*<td>@string.Join(", ", item.roles.ToList())</td>*@
-                            <td><a asp-action="ActiveUser" asp-route-uid="@item.Id" asp-controller="Account" class="btn btn-primary">Activate User</a></td>
-                            <td><a asp-action="DeActiveUser" asp-route-uid="@item.Id" asp-controller="Account" class="btn btn-danger">DeActivate User</a></td>
+                           @*  <td><a asp-action="ActiveUser" asp-route-uid="@item.Id" asp-controller="Account" class="btn btn-primary">Activate User</a></td>
+                            <td><a asp-action="DeActiveUser" asp-route-uid="@item.Id" asp-controller="Account" class="btn btn-danger">DeActivate User</a></td> *@
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
-
     </div>
 </div>
 }

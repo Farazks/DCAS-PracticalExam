@@ -1,0 +1,26 @@
+﻿@if (TempData["msg"] is not null)
+{
+    <script>
+        Swal.fire
+            ({
+                title: 'Success!',
+                text: "@TempData["msg"]",
+                icon: "success",
+                position: 'center'
+            });
+    </script>
+    TempData["msg"] = null;
+}
+else if (TempData["errMsg"] is not null)
+{
+    <script>
+        Swal.fire
+        ({
+            title: 'Fail',
+            text: "@TempData["errMsg"]", 
+            icon: "error",
+            position: 'center'
+        });
+    </script>
+    TempData["errMsg"] = null;
+}
