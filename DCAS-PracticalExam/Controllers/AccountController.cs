@@ -106,7 +106,7 @@ namespace DCAS_PracticalExam.Controllers
 #else
                 var response = true;
                 #endif
-               */ if (!response)
+                if (!response)
                 {
                     //what to do
                     // so doing don't know right or wrong but it will work.

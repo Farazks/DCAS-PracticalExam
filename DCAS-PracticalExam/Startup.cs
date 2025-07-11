@@ -78,8 +78,16 @@ namespace DCAS_PracticalExam
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
+
+            // AUTO MIGRATION
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<PracticalExamContext>();
+                dbContext.Database.Migrate(); // Apply any pending migrations
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
