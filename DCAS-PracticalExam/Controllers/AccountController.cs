@@ -105,8 +105,8 @@ namespace DCAS_PracticalExam.Controllers
                 var response = await _api.VerifyUserAsync(signInModel.Email, signInModel.Password);
 #else
                 var response = true;
-#endif
-                if (!response)
+                #endif
+               */ if (!response)
                 {
                     //what to do
                     // so doing don't know right or wrong but it will work.
