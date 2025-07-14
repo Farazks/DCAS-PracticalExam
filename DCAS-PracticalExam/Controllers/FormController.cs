@@ -420,24 +420,24 @@ namespace DCAS_PracticalExam.Controllers
             }
 
             //Mask the mobile number and email 
-            var maskedNumber = user.PhoneNumber;
-            if (!string.IsNullOrEmpty(maskedNumber) && maskedNumber.Length >= 7)
-            {
-                maskedNumber = maskedNumber.Substring(0, 5) + "*****" + maskedNumber[^2..];
-            }
-            string email = user.Email;
-            var atIndex = email.IndexOf("@");
-            string maskedEmail = email;
+            //var maskedNumber = user.PhoneNumber;
+            //if (!string.IsNullOrEmpty(maskedNumber) && maskedNumber.Length >= 7)
+            //{
+            //    maskedNumber = maskedNumber.Substring(0, 5) + "*****" + maskedNumber[^2..];
+            //}
+            //string email = user.Email;
+            //var atIndex = email.IndexOf("@");
+            //string maskedEmail = email;
 
-            if (atIndex > 3) 
-            { 
-                maskedEmail = email.Substring(0, 3) + "****" + email.Substring(atIndex);
-            }
+            //if (atIndex > 3) 
+            //{ 
+            //    maskedEmail = email.Substring(0, 3) + "****" + email.Substring(atIndex);
+            //}
             var model = new VerifyOTP
             {
                 employeeId = employeeId,
-                Email = maskedEmail,
-                MobileNumber = maskedNumber
+                Email = user.Email,
+                MobileNumber = user.PhoneNumber
             };
             return View(model);
         }
