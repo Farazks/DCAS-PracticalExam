@@ -26,7 +26,10 @@ namespace DCAS_PracticalExam.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            if(User.Identity.IsAuthenticated)
+                { return View(); }
+
+            return RedirectToAction("Login", "Account");
         }
 
         [Authorize(Roles ="SuperAdmin")]

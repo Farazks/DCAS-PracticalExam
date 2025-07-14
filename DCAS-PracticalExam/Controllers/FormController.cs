@@ -45,7 +45,7 @@ namespace DCAS_PracticalExam.Controllers
             return View();
         }
 
-        [Authorize(Roles = "SuperAdmin,Admin")]
+        [Authorize(Roles = "Admin")]
         [Route("AddCPRAssessment")]
         public IActionResult AddCPRAssessment()
         {
@@ -99,14 +99,14 @@ namespace DCAS_PracticalExam.Controllers
             return View();
         }
 
-        [Authorize(Roles = "SuperAdmin,Admin")]
+        [Authorize(Roles = "Admin")]
         [Route("AddInstructorsEvaluation")]
         public IActionResult AddInstructorsEvaluation()
         {
             return View();
         }
 
-        [Authorize(Roles = "SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin")]
         [Route("ShowCPRAssessment")]
         public async Task<IActionResult> ShowCPRAssessment()
         {
@@ -114,7 +114,7 @@ namespace DCAS_PracticalExam.Controllers
             return View(result);
         }
 
-        [Authorize(Roles = "SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin")]
         [Route("ShowInstructorsEvaluation")]
         public async Task<IActionResult> ShowInstructorsEvaluation()
         {
@@ -122,7 +122,7 @@ namespace DCAS_PracticalExam.Controllers
             return View(result);
         }
 
-        [Authorize(Roles = "SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin")]
         [Route("ShowMedicalAssessment")]
         public async Task<IActionResult> ShowMedicalAssessment()
         {
@@ -130,7 +130,7 @@ namespace DCAS_PracticalExam.Controllers
             return View(result);
         }
 
-        [Authorize(Roles = "SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin")]
         [Route("ShowTraumaAssessment")]
         public async Task<IActionResult> ShowTraumaAssessment()
         {
@@ -171,7 +171,7 @@ namespace DCAS_PracticalExam.Controllers
             return View();
         }
 
-        [Authorize(Roles = "SuperAdmin,Admin")]
+        [Authorize(Roles = "Admin")]
         [Route("AddMedicalAssessment")]
         public IActionResult AddMedicalAssessment()
         {
@@ -412,7 +412,34 @@ namespace DCAS_PracticalExam.Controllers
                 return RedirectToAction("VerifyOTP", "Form");
             }
 
-            return View();
+            var user = db.Users.FirstOrDefault(u => u.Id == employeeId);
+            if (user == null) 
+            {
+                TempData["errMsg"] = "User not found!";
+                return RedirectToAction("Index");
+            }
+
+            //Mask the mobile number and email 
+            var maskedNumber = user.PhoneNumber;
+            if (!string.IsNullOrEmpty(maskedNumber) && maskedNumber.Length >= 7)
+            {
+                maskedNumber = maskedNumber.Substring(0, 5) + "*****" + maskedNumber[^2..];
+            }
+            string email = user.Email;
+            var atIndex = email.IndexOf("@");
+            string maskedEmail = email;
+
+            if (atIndex > 3) 
+            { 
+                maskedEmail = email.Substring(0, 3) + "****" + email.Substring(atIndex);
+            }
+            var model = new VerifyOTP
+            {
+                employeeId = employeeId,
+                Email = maskedEmail,
+                MobileNumber = maskedNumber
+            };
+            return View(model);
         }
 
         [HttpPost]

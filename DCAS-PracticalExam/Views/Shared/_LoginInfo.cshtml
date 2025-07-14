@@ -1,5 +1,76 @@
 ﻿@inject Microsoft.AspNetCore.Identity.SignInManager<ApplicationUser> _signInManager
 
+<nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-4">
+    <div class="container">
+        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">DCAS Practical Exam</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+
+                @if (_signInManager.IsSignedIn(User))
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" style="color: #222;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Evaluation Forms</a>
+                        <div class="dropdown-menu">
+                            @if (User.IsInRole("Admin"))
+                            {
+                            <a class="dropdown-item text-danger" asp-action="AddCPRAssessment" asp-controller="Form">Add CPR Assessment Evaluation</a>
+                            <a class="dropdown-item text-danger" asp-action="AddInstructorsEvaluation" asp-controller="Form">Add Instructors Evaluation</a>
+                            <a class="dropdown-item text-danger" asp-action="AddMedicalAssessment" asp-controller="Form">Add Medical Assessment Evaluation</a>
+                            <a class="dropdown-item text-danger" asp-action="AddTraumaAssessment" asp-controller="Form">Add Trauma Assessment Evaluation</a>
+                            }
+                            @if (User.IsInRole("SuperAdmin")){
+                            <a class="dropdown-item text-danger" asp-action="ShowCPRAssessment" asp-controller="Form">View CPR Assessment Evaluation</a>
+                            <a class="dropdown-item text-danger" asp-action="ShowInstructorsEvaluation" asp-controller="Form">View Instructors Evaluation</a>
+                            <a class="dropdown-item text-danger" asp-action="ShowMedicalAssessment" asp-controller="Form">View Medical Assessment Evaluation</a>
+                            <a class="dropdown-item text-danger" asp-action="ShowTraumaAssessment" asp-controller="Form">View Trauma Assessment Evaluation</a>
+                            }
+
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-primary" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            Hello @(User.FindFirst("UserFirstName").Value + " " + User.FindFirst("UserLastName").Value)
+                        </a>
+                        <div class="dropdown-menu">
+                            @if (User.IsInRole("SuperAdmin"))
+                            {
+                                <a class="dropdown-item text-primary" asp-action="ViewAllUsers" asp-controller="Account">View All Users</a>
+                            }
+                            <a class="dropdown-item text-primary" asp-action="Logout" asp-controller="Account">Logout</a>
+                        </div>
+                    </li>
+                }
+            </ul>
+
+            @* Right-aligned Add User button *@
+            @if (User.IsInRole("SuperAdmin"))
+            {
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="btn btn-primary rounded-pill px-3" asp-action="Signup" asp-controller="Account">Add User</a>
+                    </li>
+                </ul>
+            }
+        </div>
+    </div>
+</nav>
+
+
+
+
+
+
+@* @inject Microsoft.AspNetCore.Identity.SignInManager<ApplicationUser> _signInManager
+
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-4">
     <div class="container">
         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">DCAS Practical Exam</a>
@@ -7,7 +78,7 @@
                 aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
@@ -41,19 +112,16 @@
                         </div>
                     </li>
                 }
-
-                else
-
-                {
-                    <div class="ml-auto">
-                        <a class="btn btn-primary" asp-action="Login" asp-controller="Account" asp-route-returnUrl="@Context.Request.Path">Login</a>
-                        <a class="btn btn-primary ml-2" asp-action="Signup" asp-controller="Account">Signup</a>
-                    </div>
-                }
-
+                    @if (User.IsInRole("SuperAdmin"))
+                    {
+                        <li class="nav-item ml-auto">
+                            <a class="nav-link text-primary" asp-action="Signup" asp-controller="Account">Add User</a>
+                        </li>
+                    }
+                   
                 </ul>
             </div>
         </div>
-        </div>
 </nav>
 
+ *@

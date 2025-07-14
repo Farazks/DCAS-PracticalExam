@@ -41,6 +41,7 @@ namespace DCAS_PracticalExam.Controllers
         }
 
         [Route("signup")]
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult Signup()
         {
             return View();
@@ -80,103 +81,163 @@ namespace DCAS_PracticalExam.Controllers
             return View();
         }
 
+        //        [HttpPost]
+        //        [Route("login")]
+        //        public async Task<IActionResult> Login(UserSignIn signInModel, string returnUrl)
+        //        {
+        //            if (ModelState.IsValid)
+        //            {
+        //                var user = await accountRepository.FindByEmailAsync(signInModel.Email);
+        //                if (user is null)
+        //                {
+        //                    ModelState.AddModelError("", $"Invalid email email address {signInModel.Email}");
+        //                    return View();
+        //                }
+        //                //is email verifeid
+        //                if (!user.EmailConfirmed)
+        //                {
+        //                    ModelState.AddModelError("", "Account is locked contact admin");
+        //                    return View();
+        //                }
+
+        //                //validate user from active directory
+        //                var result = Microsoft.AspNetCore.Identity.SignInResult.Success;
+        //#if (!DEBUG)
+        //                var response = await _api.VerifyUserAsync(signInModel.Email, signInModel.Password);
+        //#else
+        //                var response = true;
+        //                #endif
+        //                if (!response)
+        //                {
+        //                    //what to do
+        //                    // so doing don't know right or wrong but it will work.
+
+        //                    //pass invalid credential to passwordsignin so after few attempt it can block code
+        //                    //signInModel.Password = "Incorrect zyz";
+        //                    result = await accountRepository.PasswordSigninAsync(signInModel);
+
+        //                    //if account is locked
+        //                    if (result.IsLockedOut)
+        //                    {
+        //                        var a = db.Users.FirstOrDefault(x => x.Email == signInModel.Email);
+        //                        a.EmailConfirmed = false;
+        //                        db.SaveChanges();
+        //                        ModelState.AddModelError("", "The account is locked out");
+        //                    }
+        //                    //is email verifeid
+        //                    if (result.IsNotAllowed)
+        //                        ModelState.AddModelError("", "account is locked contact admin");
+        //                    //credentials verfication
+        //                    if (!result.Succeeded)
+        //                        ModelState.AddModelError("", "Invalid Credentials");
+
+        //                    return View();
+        //                }
+
+        //                await accountRepository.SignInAsync(user, configuration.GetValue<int>("AD:SessionExpiryHours"));
+        //                if (!string.IsNullOrEmpty(returnUrl))
+        //                {
+
+
+        //                    //if (!string.IsNullOrEmpty(returnUrl))
+        //                    //    return LocalRedirect(returnUrl);
+        //                    if (returnUrl == "/")
+        //                    {
+        //                        return RedirectToAction("GenerateOtp", "Form", new {appID = user.Id});
+        //                    }
+        //                    else if (returnUrl == "/signup" || returnUrl == "/login")
+        //                    {
+        //                        return RedirectToAction("GenerateOtp", "Form", new { appID = user.Id });
+        //                    }
+        //                    return RedirectToAction(returnUrl, "Form", new { appID = user.Id });
+        //                }//return url setting
+
+        //                return RedirectToAction("GenerateOtp", "Form", new { appID = user.Id });
+
+        //            }//if model state is valid
+        //            return View();
+        //            #region Old Code
+        //            //if (ModelState.IsValid)
+        //            //{
+        //            //    var result = await accountRepository.PasswordSigninAsync(user);
+
+        //            //    if (result.Succeeded)
+        //            //    {
+        //            //        if (!string.IsNullOrEmpty(returnUrl))
+        //            //        {
+        //            //            return LocalRedirect(returnUrl);
+        //            //        }
+        //            //        return RedirectToAction("Index", "Home");
+        //            //    }
+        //            //    if (result.IsNotAllowed)
+        //            //    {
+        //            //        ModelState.AddModelError("", "Email Not Confirmed By Admin");
+        //            //    }
+        //            //    else
+        //            //        ModelState.AddModelError("", "Invalid Credentials");
+        //            //}
+        //            //return View(user);
+        //            #endregion
+        //        }
+
+
+        // New login method using AD without checking password from DB
+
+
+        /*// New login method using AD without checking password from DB*/
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login(UserSignIn signInModel, string returnUrl)
         {
             if (ModelState.IsValid)
             {
+                // 1. Find user from local database
                 var user = await accountRepository.FindByEmailAsync(signInModel.Email);
-                if (user is null)
+                if (user == null)
                 {
-                    ModelState.AddModelError("", $"Invalid email email address {signInModel.Email}");
+                    ModelState.AddModelError("", $"Invalid email address {signInModel.Email}");
                     return View();
                 }
-                //is email verifeid
+
+                // 2. Check if email is confirmed
                 if (!user.EmailConfirmed)
                 {
-                    ModelState.AddModelError("", "account is locked contact admin");
+                    ModelState.AddModelError("", "Account is locked. Contact admin.");
                     return View();
                 }
 
-                //validate user from active directory
-                var result = Microsoft.AspNetCore.Identity.SignInResult.Success;
+                // 3. Validate against Active Directory
 #if (!DEBUG)
-                var response = await _api.VerifyUserAsync(signInModel.Email, signInModel.Password);
+        var isAdValid = await _api.VerifyUserAsync(signInModel.Email, signInModel.Password);
 #else
-                var response = true;
-                #endif
-                if (!response)
+                var isAdValid = true;
+#endif
+
+                if (!isAdValid)
                 {
-                    //what to do
-                    // so doing don't know right or wrong but it will work.
-
-                    //pass invalid credential to passwordsignin so after few attempt it can block code
-                    //signInModel.Password = "Incorrect zyz";
-                    result = await accountRepository.PasswordSigninAsync(signInModel);
-
-                    //if account is locked
-                    if (result.IsLockedOut)
-                    {
-                        var a = db.Users.FirstOrDefault(x => x.Email == signInModel.Email);
-                        a.EmailConfirmed = false;
-                        db.SaveChanges();
-                        ModelState.AddModelError("", "The account is locked out");
-                    }
-                    //is email verifeid
-                    if (result.IsNotAllowed)
-                        ModelState.AddModelError("", "account is locked contact admin");
-                    //credentials verfication
-                    if (!result.Succeeded)
-                        ModelState.AddModelError("", "Invalid Credentials");
-
+                    ModelState.AddModelError("", "Invalid Active Directory credentials.");
                     return View();
                 }
 
+                // 4. Sign in the user manually after AD validation success
                 await accountRepository.SignInAsync(user, configuration.GetValue<int>("AD:SessionExpiryHours"));
+
+                // 5. Handle redirection after successful login
                 if (!string.IsNullOrEmpty(returnUrl))
                 {
-
-
-                    //if (!string.IsNullOrEmpty(returnUrl))
-                    //    return LocalRedirect(returnUrl);
-                    if (returnUrl == "/")
-                    {
-                        return RedirectToAction("GenerateOtp", "Form", new {appID = user.Id});
-                    }
-                    else if (returnUrl == "/signup" || returnUrl == "/login")
+                    // Normalize URLs
+                    if (returnUrl == "/" || returnUrl == "/signup" || returnUrl == "/login")
                     {
                         return RedirectToAction("GenerateOtp", "Form", new { appID = user.Id });
                     }
+
                     return RedirectToAction(returnUrl, "Form", new { appID = user.Id });
-                }//return url setting
+                }
 
                 return RedirectToAction("GenerateOtp", "Form", new { appID = user.Id });
+            }
 
-            }//if model state is valid
-            return View();
-            #region Old Code
-            //if (ModelState.IsValid)
-            //{
-            //    var result = await accountRepository.PasswordSigninAsync(user);
-
-            //    if (result.Succeeded)
-            //    {
-            //        if (!string.IsNullOrEmpty(returnUrl))
-            //        {
-            //            return LocalRedirect(returnUrl);
-            //        }
-            //        return RedirectToAction("Index", "Home");
-            //    }
-            //    if (result.IsNotAllowed)
-            //    {
-            //        ModelState.AddModelError("", "Email Not Confirmed By Admin");
-            //    }
-            //    else
-            //        ModelState.AddModelError("", "Invalid Credentials");
-            //}
-            //return View(user);
-            #endregion
+            return View(); // If ModelState is invalid
         }
 
         [Route("logout")]

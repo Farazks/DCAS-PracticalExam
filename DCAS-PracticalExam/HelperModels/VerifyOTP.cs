@@ -10,5 +10,8 @@ namespace DCAS_PracticalExam.Helper_Model
         public string Otp { get; set; } = default!;
 
         public string employeeId { get; set; } = default!;
+
+        public string Email { get; set; } = string.Empty;
+        public string MobileNumber { get; set; } = string.Empty;
     }
 }

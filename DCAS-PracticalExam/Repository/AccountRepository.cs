@@ -31,10 +31,11 @@ namespace DCAS_PracticalExam.Repository
                 FirstName = myuser.FirstName,
                 LastName = myuser.LastName,
                 Email = myuser.Email,
-                UserName = myuser.Email
+                UserName = myuser.Email,
+                PhoneNumber = myuser.MobileNumber
             };
 
-            var result = await _userManager.CreateAsync(user, myuser.Password);
+            var result = await _userManager.CreateAsync(user);
             
             return result;
         }

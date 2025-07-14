@@ -23,15 +23,10 @@ namespace DCAS_PracticalExam.Models
         [EmailAddress(ErrorMessage = "Please Enter A Valid Email Address")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Please Enter A Strong Password")]
-        [Compare("ConfirmPassword", ErrorMessage = "Password Does not Match")]
-        [Display(Name = "Password")]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
+        [Required(ErrorMessage = "Please Enter Your Mobile Number")]
+        [Phone(ErrorMessage = "Please Enter A Valid Mobile Number")]
+        [Display(Name = "Mobile Number")]
+        public string MobileNumber { get; set; }
 
-        [Required(ErrorMessage = "Please Confirm Your Password")]
-        [Display(Name = "Confirm Password")]
-        [DataType(DataType.Password)]
-        public string ConfirmPassword { get; set; }
     }
 }

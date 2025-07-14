@@ -51,6 +51,15 @@
                     <h2 style="color: #fff">Verify OTP</h2>
                 </div>
                 <div class="card-body">
+                    <div class="alert alert-secondary text-center">
+                        <p class="mb-1">You will receive OTP on you</p>
+                        <ul class="list-unstyled mb-2">
+                            <li><strong>Mobile Number :</strong> @Model.MobileNumber</li>
+                            <li><strong>Email ID :</strong> @Model.Email</li>
+                        </ul>
+                        <p>Please enter either one of the OTP below to complete the verification</p>
+                    </div>
+
                     <form asp-action="VerifyOtp" method="post" id="otpForm">
                         <div class="form-group text-center">
                             <label for="otp" class="control-label">Enter OTP</label>
@@ -66,7 +75,7 @@
                         </div>
                         <div class="form-group text-center mt-4">
                             <input type="hidden" id="Otp" name="Otp" />
-                            <input type="hidden" id="employeeId" name="employeeId" />
+                            <input type="hidden" id="employeeId" name="employeeId" value="@Model.employeeId" />
                             <button type="submit" class="btn btn-primary btn-md">Verify OTP</button>
                         </div>
                     </form>
