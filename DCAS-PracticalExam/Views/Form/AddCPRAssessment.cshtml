@@ -251,6 +251,7 @@
                       "></canvas>
                                      
                                         <input type="hidden" ID="ImageValInspector1" name="Assessor1Sign" />
+                                        <span id="Assessor1SignError" class="text-danger"></span>
                                     </div>
                                     <div>
                                         <button data-action="clear" class="btn btn-danger">
@@ -288,7 +289,7 @@
                         border-radius: 5px 5px 10px 15px;
                       "></canvas>
                                         <input type="hidden" ID="ImageValCustomer" name="Assessor2Sign" />
-                                        
+                                        <span id="Assessor2SignError" class="text-danger"></span>
                                     </div>
                                     <div class="mx-auto">
                                         <button data-action="clearCustomer" class="btn btn-danger">
@@ -327,28 +328,38 @@
 <script src="~/js/signature_pad.js"></script>
 <script type="text/javascript">
     $(function () {
-        $("#saveForm").bind("click", function () {
+        $("#saveForm").bind("click", function (e) {
+            let valid = true;
             if (signaturePad.isEmpty()) {
                 $("[Id*=ImageValInspector1]").val("_blank");
+                $("#Assessor1SignError").text("Signature of Assessor 1 is required."); // 🔸 Show error
+                valid = false;
             } else {
                 var base64 = $("#sigcanvas")[0].toDataURL();
                 base64 = base64.replace("data:image/png;base64,", "");
                 $("[Id*=ImageValInspector1]").val(base64);
+                $("#Assessor1SignError").text("");
                 //window.alert($("#ImageValInspector1").val());
             }
 
             if (signaturePadCustomer.isEmpty()) {
                 $("[Id*=ImageValCustomer]").val("_blank");
+                $("#Assessor2SignError").text("Signature of Assessor 2 is required."); // 🔸 Show error
+                valid = false;
             } else {
                 var base64C = $("#canvasCustomer")[0].toDataURL();
                 base64C = base64C.replace("data:image/png;base64,", "");
                 $("[Id*=ImageValCustomer]").val(base64C);
+                $("#Assessor2SignError").text("");
             }
 
             var my2ndopt = $('input[name="RadioDefault"]:checked').val(); // Q10 Rating
             //window.alert(my2ndopt);
 
-            $("#selectedRadio").val(my2ndopt); // Rating
+            $("#selectedRadio").val(my2ndopt);
+            if (!valid) {
+                e.preventDefault(); 
+            }
         });
     });
 </script>

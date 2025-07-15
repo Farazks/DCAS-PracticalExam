@@ -567,6 +567,7 @@
                         border-radius: 5px 5px 10px 15px;
                       "></canvas>
                                 <input type="hidden" ID="ImageValInspector1" name="Assessor1Sign" />
+                                <span id="signature1-validation" class="text-danger"></span>
                             </div>
                             <div>
                                 <button data-action="clear" class="btn btn-danger">
@@ -604,6 +605,7 @@
                         border-radius: 5px 5px 10px 15px;
                       "></canvas>
                                 <input type="hidden" ID="ImageValCustomer" name="Assessor2Sign" />
+                                <span id="signature2-validation" class="text-danger"></span>
                             </div>
                             <div>
                                 <button data-action="clearCustomer" class="btn btn-danger">
@@ -625,7 +627,7 @@
                 Scanned and filed<br />
             </div>
             <div class="mt-4">
-                <button id="saveForm" style="display: block; margin: 0 auto" runat="server" Text="Submit"
+                <button id="saveForm" style="display: block; margin: 0 auto" runat="server" Text="Submit" type="button"
                         class="btn btn-primary">
                     Submit
                 </button>
@@ -641,8 +643,14 @@
 <script src="~/js/signature_pad.js"></script>
 <script type="text/javascript">
     $(function () {
-        $("#saveForm").bind("click", function () {
+        $("#saveForm").bind("click", function (e) {
+            let isValid = true;
+            $("#signature1-validation").text("");
+            $("#signature2-validation").text("");
+
+
             if (signaturePad.isEmpty()) {
+                $("#signature1-validation").text("Signature of Assessor 1 is required.");
                 $("[Id*=ImageValInspector1]").val("_blank");
             } else {
                 var base64 = $("#sigcanvas")[0].toDataURL();
@@ -651,6 +659,7 @@
             }
 
             if (signaturePadCustomer.isEmpty()) {
+                $("#signature2-validation").text("Signature of Assessor 2 is required.");
                 $("[Id*=ImageValCustomer]").val("_blank");
             } else {
                 var base64C = $("#canvasCustomer")[0].toDataURL();
@@ -660,7 +669,11 @@
 
             var my2ndopt = $('input[name="RadioDefault"]:checked').val(); // Selected Result Radio
 
-            $("#selectedRadio").val(my2ndopt); // Radio Value Passing In Model Property
+            $("#selectedRadio").val(my2ndopt); 
+            if (!isValid) {
+                e.preventDefault(); 
+                return false;
+            }
         });
     });
 </script>
