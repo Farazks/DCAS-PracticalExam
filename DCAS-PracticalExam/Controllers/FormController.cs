@@ -45,7 +45,7 @@ namespace DCAS_PracticalExam.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [Route("AddCPRAssessment")]
         public IActionResult AddCPRAssessment()
         {
@@ -99,14 +99,14 @@ namespace DCAS_PracticalExam.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [Route("AddInstructorsEvaluation")]
         public IActionResult AddInstructorsEvaluation()
         {
             return View();
         }
 
-        [Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [Route("ShowCPRAssessment")]
         public async Task<IActionResult> ShowCPRAssessment()
         {
@@ -114,7 +114,7 @@ namespace DCAS_PracticalExam.Controllers
             return View(result);
         }
 
-        [Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [Route("ShowInstructorsEvaluation")]
         public async Task<IActionResult> ShowInstructorsEvaluation()
         {
@@ -122,7 +122,7 @@ namespace DCAS_PracticalExam.Controllers
             return View(result);
         }
 
-        [Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [Route("ShowMedicalAssessment")]
         public async Task<IActionResult> ShowMedicalAssessment()
         {
@@ -130,7 +130,7 @@ namespace DCAS_PracticalExam.Controllers
             return View(result);
         }
 
-        [Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [Route("ShowTraumaAssessment")]
         public async Task<IActionResult> ShowTraumaAssessment()
         {
@@ -171,7 +171,7 @@ namespace DCAS_PracticalExam.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         [Route("AddMedicalAssessment")]
         public IActionResult AddMedicalAssessment()
         {

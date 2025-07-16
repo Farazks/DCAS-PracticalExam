@@ -19,26 +19,30 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" style="color: #222;" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Evaluation Forms</a>
                         <div class="dropdown-menu">
-                            @if (User.IsInRole("Admin"))
-                            {
+                          
                             <a class="dropdown-item text-danger" asp-action="AddCPRAssessment" asp-controller="Form">Add CPR Assessment Evaluation</a>
                             <a class="dropdown-item text-danger" asp-action="AddInstructorsEvaluation" asp-controller="Form">Add Instructors Evaluation</a>
                             <a class="dropdown-item text-danger" asp-action="AddMedicalAssessment" asp-controller="Form">Add Medical Assessment Evaluation</a>
                             <a class="dropdown-item text-danger" asp-action="AddTraumaAssessment" asp-controller="Form">Add Trauma Assessment Evaluation</a>
-                            }
-                            @if (User.IsInRole("SuperAdmin")){
                             <a class="dropdown-item text-danger" asp-action="ShowCPRAssessment" asp-controller="Form">View CPR Assessment Evaluation</a>
                             <a class="dropdown-item text-danger" asp-action="ShowInstructorsEvaluation" asp-controller="Form">View Instructors Evaluation</a>
                             <a class="dropdown-item text-danger" asp-action="ShowMedicalAssessment" asp-controller="Form">View Medical Assessment Evaluation</a>
                             <a class="dropdown-item text-danger" asp-action="ShowTraumaAssessment" asp-controller="Form">View Trauma Assessment Evaluation</a>
-                            }
-
+                           
                         </div>
                     </li>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-primary" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             Hello @(User.FindFirst("UserFirstName").Value + " " + User.FindFirst("UserLastName").Value)
+                            @if(User.IsInRole("SuperAdmin"))
+                            {
+                                @: - Welcome SuperAdmin
+                            }
+                            else
+                            {
+                                @: - Welcome Admin
+                            }
                         </a>
                         <div class="dropdown-menu">
                             @if (User.IsInRole("SuperAdmin"))

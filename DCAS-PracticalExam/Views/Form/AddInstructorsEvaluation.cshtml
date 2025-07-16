@@ -438,6 +438,8 @@
                         border-radius: 5px 5px 10px 15px;
                       "></canvas>
                                    <input type="hidden" ID="ImageValExaminer" name="ExaminerSign" />
+                                   <span id="ExaminerSignError" class="text-danger d-block"></span>
+
                                 </div>
                                 <div>
                                     <button data-action="clear" class="btn btn-danger">
@@ -469,59 +471,68 @@
 </form>
 
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/signature_pad.js"></script>
-<script type="text/javascript">
-    $(function () {
-        $("#saveForm").bind("click", function () {
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/signature_pad.js"></script>
+
+<script>
+    var canvasExaminer, signaturepadExaminer;
+
+    $(document).ready(function () {
+
+        // Setup signature pad
+        canvasExaminer = document.getElementById("canvasExaminer");
+        signaturepadExaminer = new SignaturePad(canvasExaminer);
+
+        function resizeCanvas() {
+            var ratio = window.devicePixelRatio || 1;
+            canvasExaminer.width = canvasExaminer.offsetWidth * ratio;
+            canvasExaminer.height = canvasExaminer.offsetHeight * ratio;
+            canvasExaminer.getContext("2d").scale(ratio, ratio);
+        }
+
+        window.onresize = resizeCanvas;
+        resizeCanvas();
+
+        // Clear signature pad
+        $("[data-action='clear']").on("click", function () {
+            signaturepadExaminer.clear();
+            $("#ExaminerSignError").text(""); // Clear error when reset
+        });
+
+        // Submit validation
+        $("#saveForm").on("click", function (e) {
+            let valid = true;
+
             if (signaturepadExaminer.isEmpty()) {
-                $("[Id*=ImageValExaminer]").val("_blank");
+                $("#ExaminerSignError").text("Signature of Assessor 1 is required.");
+                $("[id='ImageValExaminer']").val("_blank");
+                valid = false;
             } else {
-                var base64C = $("#canvasExaminer")[0].toDataURL();
-                base64C = base64C.replace("data:image/png;base64,", "");
-                $("[Id*=ImageValExaminer]").val(base64C);
+                var base64C = canvasExaminer.toDataURL("image/png").replace("data:image/png;base64,", "");
+                $("[id='ImageValExaminer']").val(base64C);
+                $("#ExaminerSignError").text("");
             }
-            var myopt = $('input[name="radiobutton2"]:checked').val(); // Q9 Progress
-            var my2ndopt = $('input[name="RadioDefault"]:checked').val(); // Q10 Rating
-            
-            //window.alert(myopt);
-            //window.alert(my2ndopt);
-            var myresult= $('input[name="RadioResult"]:checked').val(); // Selected Result Radio
 
-            $("#resultRadio").val(myresult); // Radio Value Passing In Model Property
+            // Set hidden values from radio buttons
+            var question9 = $('input[name="radiobutton2"]:checked').val();
+            var question10 = $('input[name="RadioDefault"]:checked').val();
+            var result = $('input[name="RadioResult"]:checked').val();
 
-            $("#selectedRadio").val(my2ndopt); // Rating
-            $("#progressRadio").val(myopt); // Progress
+            $("#progressRadio").val(question9);
+            $("#selectedRadio").val(question10);
+            $("#resultRadio").val(result);
+
+            if (!valid) {
+                e.preventDefault(); // Prevent form submission
+            }
         });
     });
-</script>
-<script lang="ja" type="text/javascript">
-    var wrapperCustomer = document.getElementById("signature-padExaminer"),
-        clearButtonCustomer = wrapperCustomer.querySelector(
-            "[data-action=clearExaminer]"
-        ),
-        canvasExaminer = wrapperCustomer.querySelector("canvas"),
-        signaturepadExaminer;
-
-    function resizeCanvas() {
-        var ratio = window.devicePixelRatio || 1;
-
-        canvasExaminer.width = canvasExaminer.offsetWidth * ratio;
-        canvasExaminer.height = canvasExaminer.offsetHeight * ratio;
-        canvasExaminer.getContext("2d").scale(ratio, ratio);
-    }
-
-    window.onresize = resizeCanvas;
-    resizeCanvas();
-
-    signaturepadExaminer = new SignaturePad(canvasExaminer);
-    var el = document.getElementById("clear");
-    if (el) {
-        clearButtonCustomer.addEventListener("click", function (event) {
-            signaturepadExaminer.clear();
-        });
-    }
 </script>

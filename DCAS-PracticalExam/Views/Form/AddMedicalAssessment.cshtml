@@ -557,6 +557,7 @@ ul {
                         border-radius: 5px 5px 10px 15px;
                       "></canvas>
                                         <input type="hidden" ID="ImageValInspector1" name="Assessor1Sign" />
+                            <div id="sigInspectorError" class="text-danger d-none"></div>
                                     </div>
                                     <div>
                                         <button data-action="clear" class="btn btn-danger">
@@ -594,6 +595,7 @@ ul {
                         border-radius: 5px 5px 10px 15px;
                       "></canvas>
                                         <input type="hidden" ID="ImageValCustomer" name="Assessor2Sign" />
+                                        <div id="sigCustomerError" class="text-danger d-none"></div>
                                     </div>
                                     <div class="mx-auto">
                                         <button data-action="clearCustomer" class="btn btn-danger">
@@ -625,6 +627,95 @@ ul {
 </form>
 
 @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/signature_pad.js"></script>
+<script type="text/javascript">
+    $(function () {
+        // Initialize signature pads
+        var wrapper = document.getElementById("signature-pad");
+        var clearButton = wrapper.querySelector("[data-action=clear]");
+        var canvas = wrapper.querySelector("canvas");
+        var signaturePad = new SignaturePad(canvas);
+
+        var wrapperCustomer = document.getElementById("signature-padCustomer");
+        var clearButtonCustomer = wrapperCustomer.querySelector("[data-action=clearCustomer]");
+        var canvasCustomer = wrapperCustomer.querySelector("canvas");
+        var signaturePadCustomer = new SignaturePad(canvasCustomer);
+
+        // Resize canvases to handle device pixel ratio
+        function resizeCanvas() {
+            var ratio = window.devicePixelRatio || 1;
+            canvas.width = canvas.offsetWidth * ratio;
+            canvas.height = canvas.offsetHeight * ratio;
+            canvas.getContext("2d").scale(ratio, ratio);
+
+            canvasCustomer.width = canvasCustomer.offsetWidth * ratio;
+            canvasCustomer.height = canvasCustomer.offsetHeight * ratio;
+            canvasCustomer.getContext("2d").scale(ratio, ratio);
+        }
+
+        window.onresize = resizeCanvas;
+        resizeCanvas();
+
+        // Clear button event listeners
+        if (clearButton) {
+            clearButton.addEventListener("click", function (event) {
+                event.preventDefault();
+                signaturePad.clear();
+            });
+        }
+
+        if (clearButtonCustomer) {
+            clearButtonCustomer.addEventListener("click", function (event) {
+                event.preventDefault();
+                signaturePadCustomer.clear();
+            });
+        }
+
+        // Form submission validation
+        $("#saveForm").on("click", function (e) {
+            let isValid = true;
+
+            // Validate Assessor 1 signature
+            if (signaturePad.isEmpty()) {
+                $("[id*=ImageValInspector1]").val("_blank");
+                $("#sigInspectorError").removeClass("d-none").text("Signature of Assessor 1 is required.");
+                isValid = false;
+            } else {
+                var base64 = canvas.toDataURL();
+                base64 = base64.replace("data:image/png;base64,", "");
+                $("[id*=ImageValInspector1]").val(base64);
+                $("#sigInspectorError").addClass("d-none");
+            }
+
+            // Validate Assessor 2 signature
+            if (signaturePadCustomer.isEmpty()) {
+                $("[id*=ImageValCustomer]").val("_blank");
+                $("#sigCustomerError").removeClass("d-none").text("Signature of Assessor 2 is required.");
+                isValid = false;
+            } else {
+                var base64C = canvasCustomer.toDataURL();
+                base64C = base64C.replace("data:image/png;base64,", "");
+                $("[id*=ImageValCustomer]").val(base64C);
+                $("#sigCustomerError").addClass("d-none");
+            }
+
+            // Capture selected radio button value
+            var selectedResult = $('input[name="RadioDefault"]:checked').val();
+            $("#selectedRadio").val(selectedResult);
+
+            // Prevent form submission if validation fails
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
+@* @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -698,4 +789,4 @@ ul {
     }
 
     var uri = "api/signatures";
-</script>
+</script> *@
