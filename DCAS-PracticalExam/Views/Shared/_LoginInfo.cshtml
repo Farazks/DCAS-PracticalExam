@@ -35,14 +35,14 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-primary" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             Hello @(User.FindFirst("UserFirstName").Value + " " + User.FindFirst("UserLastName").Value)
-                            @if(User.IsInRole("SuperAdmin"))
+                            @* @if(User.IsInRole("SuperAdmin"))
                             {
                                 @: - Welcome SuperAdmin
                             }
                             else
                             {
                                 @: - Welcome Admin
-                            }
+                            } *@
                         </a>
                         <div class="dropdown-menu">
                             @if (User.IsInRole("SuperAdmin"))
