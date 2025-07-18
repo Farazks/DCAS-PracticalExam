@@ -36,7 +36,10 @@ ul {
             </div>
             <div class="col-md-6">
             <div class="form-group"> <label asp-for="TestDate">Test Date</label>
-                    <input asp-for="TestDate" runat="server" type="text" value="" tabindex="2" class="form-control" id="testDateInput" />
+                    <input asp-for="TestDate" runat="server" type="text"
+                           class="form-control" id="testDateInput"
+                           readonly tabindex="-1" style="background-color: #e9ecef; cursor: not-allowed;" />
+
                 <span asp-validation-for="TestDate" class="text-danger"></span>
                 </div>
             </div>
@@ -637,6 +640,15 @@ ul {
 <script src="~/js/signature_pad.js"></script>
 <script type="text/javascript">
     $(function () {
+        // ✅ Auto-set Test Date on page load
+        const today = new Date();
+        const formattedDate = today.getDate().toString().padStart(2, '0') + '-' +
+            (today.getMonth() + 1).toString().padStart(2, '0') + '-' +
+            today.getFullYear();
+        $('#testDateInput').val(formattedDate);
+
+
+
         // Initialize signature pads
         var wrapper = document.getElementById("signature-pad");
         var clearButton = wrapper.querySelector("[data-action=clear]");
@@ -713,15 +725,6 @@ ul {
             // Prevent form submission if validation fails
             if (!isValid) {
                 e.preventDefault();
-            }
-        });
-        $('#testDateInput').on('focus', function () {
-            if (!$(this).val()) {
-                const today = new Date();
-                const formattedDate = today.getDate().toString().padStart(2, '0') + '-' +
-                    (today.getMonth() + 1).toString().padStart(2, '0') + '-' +
-                    today.getFullYear();
-                $(this).val(formattedDate);
             }
         });
     });

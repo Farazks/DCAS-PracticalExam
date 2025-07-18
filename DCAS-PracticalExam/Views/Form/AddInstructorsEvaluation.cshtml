@@ -79,7 +79,7 @@
                                        style="color: black; font-size: 0.9rem; font-weight: bold">Test Date</label>
                             </td>
                             <td width="30%">
-                        <input asp-for="EvaluationDate" runat="server" type="text" value="" tabindex="2" class="form-control" id="evaluationDateInput" readonly />
+                        <input asp-for="EvaluationDate" runat="server" type="text" value="" tabindex="2" class="form-control" id="evaluationDateInput" readonly style="background-color: #e9ecef; cursor: not-allowed;"/>
                                 <span asp-validation-for="EvaluationDate" class="text-danger"></span>
                             </td>
                         </tr>
@@ -535,15 +535,13 @@
                 e.preventDefault(); // Prevent form submission
             }
         });
-        $('#evaluationDateInput').on('focus', function () {
-            if (!$(this).val()) {
-                const today = new Date();
-                const formattedDate = today.getDate().toString().padStart(2, '0') + '-' +
-                    (today.getMonth() + 1).toString().padStart(2, '0') + '-' +
-                    today.getFullYear();
-                $(this).val(formattedDate);
-            }
-        });
+        // Set test date on page load
+        const today = new Date();
+        const formattedDate = today.getDate().toString().padStart(2, '0') + '-' +
+            (today.getMonth() + 1).toString().padStart(2, '0') + '-' +
+            today.getFullYear();
+        $("#evaluationDateInput").val(formattedDate);
+
 
     });
 </script>
