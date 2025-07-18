@@ -8,7 +8,7 @@ namespace DCAS_PracticalExam.HelperModels
     public class EvaluationResult
     {
         public int ID { get; set; }
-        public string CandidateName { get; set; }
+        public string CRMRequest { get; set; }
         public string TestDate { get; set; }
         public int TotalPoints { get; set; }
         public int AwardedPoints { get; set; }

@@ -18,20 +18,27 @@
         </div>
         
         <div class="form-row">
-            <div class="col-md-6">
+            @* <div class="col-md-6">
               <div class="form-group"> <label asp-for="CandidateName">Candidate Name</label> 
                 <input runat="server" id="CandidateName" tabindex="1" name="CandidateName" asp-for="CandidateName" class="form-control" type="text" />
                 <span asp-validation-for="CandidateName" class="text-danger"></span>
                   </div>
+            </div> *@
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="CRMRequest">CRM Request</label>
+                    <input asp-for="CRMRequest" runat="server" type="text" value="" tabindex="1" class="form-control" id="crmRequestInput" />
+                    <span asp-validation-for="CRMRequest" class="text-danger"></span>
+                </div>
             </div>
             <div class="col-md-6">
             <div class="form-group"> <label asp-for="TestDate">Test Date</label>
-                <input asp-for="TestDate" runat="server" type="text" value="" tabindex="2" class="form-control" id="datetimepicker" />
+                <input asp-for="TestDate" runat="server" type="text" value="" tabindex="2" class="form-control" id="testDateInput" />
                 <span asp-validation-for="TestDate" class="text-danger"></span>
                 </div>
             </div>
         </div>
-        <div class="form-row">
+      @*   <div class="form-row">
             <div class="col-md-6">
               <div class="form-group"> <label asp-for="EstablishmentName">Establishment Name</label> 
                 <input runat="server" id="EstablishmentName" tabindex="1" name="EstablishmentName" asp-for="EstablishmentName" class="form-control" type="text" />
@@ -44,17 +51,12 @@
                     <span asp-validation-for="Designation" class="text-danger"></span>
                 </div>
             </div>
-        </div>
+        </div> *@
 
-        <div class="form-row">
-           <div class="col-md-6">
-            <div class="form-group"><label asp-for="CRMRequest">CRMRequest</label>
-                    <input asp-for="CRMRequest" runat="server" type="text" value="" tabindex="2" class="form-control" id="datetimepicker" />
-                    <span asp-validation-for="CRMRequest" class="text-danger"></span>
-                </div>
-            </div>
+        @* <div class="form-row">
+           
         </div>
-        
+         *@
         <div>
             <hr />
         </div>
@@ -359,6 +361,16 @@
             $("#selectedRadio").val(my2ndopt);
             if (!valid) {
                 e.preventDefault(); 
+            }
+        });
+
+        $('#testDateInput').on('focus', function () {
+            if (!$(this).val()) {
+                const today = new Date();
+                const formattedDate = today.getDate().toString().padStart(2, '0') + '-' +
+                    (today.getMonth() + 1).toString().padStart(2, '0') + '-' +
+                    today.getFullYear();
+                $(this).val(formattedDate);
             }
         });
     });

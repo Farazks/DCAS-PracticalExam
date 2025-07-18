@@ -32,7 +32,7 @@
                                 seriously.
                             </td>
                         </tr>
-                        <tr>
+                       @*  <tr>
                             <td width="40%">
                                 <label asp-for="Name" class="text-center"
                                        style="color: black; font-size: 0.9rem; font-weight: bold">Name</label>
@@ -41,8 +41,8 @@
                                 <input runat="server" id="CandidateName" tabindex="1" name="Name" asp-for="Name" class="form-control" type="text" />
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </td>
-                        </tr>
-                        <tr>
+                        </tr> *@
+                       @*  <tr>
                             <td width="30%">
 
                                 <label asp-for="ProfessionalQualifications" class="text-center"
@@ -52,8 +52,8 @@
                                 <input runat="server" id="EstName" asp-for="ProfessionalQualifications" tabindex="1" name="ProfessionalQualifications" class="form-control" type="text"
                                        style="height: auto" />
                             </td>
-                        </tr>
-                        <tr>
+                        </tr> *@
+                       @*  <tr>
                             <td width="30%">
                                 <label asp-for="SiteName" class="text-center"
                                        style="color: black; font-size: 0.9rem; font-weight: bold">Site Name</label>
@@ -62,19 +62,29 @@
                                 <input runat="server" id="SiteName" asp-for="SiteName" tabindex="1" name="SiteName" class="form-control" type="text"
                                        style="height: auto" />
                             </td>
-                        </tr>
+                        </tr> *@
+                <tr>
+                    <td width="40%">
+                        <label asp-for="CRMRequest" class="text-center"
+                               style="color: black; font-size: 0.9rem; font-weight: bold">CRM Request</label>
+                    </td>
+                    <td width="30%">
+                        <input runat="server" id="CrmRequest" tabindex="1" asp-for="CRMRequest" class="form-control" type="text" />
+                        <span asp-validation-for="CRMRequest" class="text-danger"></span>
+                    </td>
+                </tr>
                         <tr>
                             <td width="30%">
                                 <label asp-for="EvaluationDate" class="text-center"
-                                       style="color: black; font-size: 0.9rem; font-weight: bold">Evaluation Date</label>
+                                       style="color: black; font-size: 0.9rem; font-weight: bold">Test Date</label>
                             </td>
                             <td width="30%">
-                                <input asp-for="EvaluationDate" runat="server" type="text" value="" tabindex="2" class="form-control" id="datetimepicker" />
+                        <input asp-for="EvaluationDate" runat="server" type="text" value="" tabindex="2" class="form-control" id="evaluationDateInput" readonly />
                                 <span asp-validation-for="EvaluationDate" class="text-danger"></span>
                             </td>
                         </tr>
 
-                        <tr>
+                        @* <tr>
                             <td width="30%">
                                 <label asp-for="Subject" class="text-center"
                                        style="color: black; font-size: 0.9rem; font-weight: bold">Subject</label>
@@ -104,16 +114,7 @@
                                 <span asp-validation-for="Designation" class="text-danger"></span>
                             </td>
                         </tr>
-                        <tr>
-                            <td width="40%">
-                                <label asp-for="CRMRequest" class="text-center"
-                                       style="color: black; font-size: 0.9rem; font-weight: bold">CRM Request</label>
-                            </td>
-                            <td width="30%">
-                                <input runat="server" id="CrmRequest" tabindex="1" asp-for="CRMRequest" class="form-control" type="text" />
-                                <span asp-validation-for="CRMRequest" class="text-danger"></span>
-                            </td>
-                        </tr>
+ *@                       
                     </table>
                 </div>
                 <hr />
@@ -534,5 +535,15 @@
                 e.preventDefault(); // Prevent form submission
             }
         });
+        $('#evaluationDateInput').on('focus', function () {
+            if (!$(this).val()) {
+                const today = new Date();
+                const formattedDate = today.getDate().toString().padStart(2, '0') + '-' +
+                    (today.getMonth() + 1).toString().padStart(2, '0') + '-' +
+                    today.getFullYear();
+                $(this).val(formattedDate);
+            }
+        });
+
     });
 </script>

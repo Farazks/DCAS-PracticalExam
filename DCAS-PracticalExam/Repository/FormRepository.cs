@@ -92,7 +92,8 @@ namespace DCAS_PracticalExam.Repository
                 var result = await db.CPRAssessmentEvaluationFields.Select(x => new EvaluationResult
                 {
                     ID = x.ID,
-                    CandidateName = x.CandidateName,
+                    //CandidateName = x.CandidateName,
+                    CRMRequest = x.CRMRequest,
                     Result = x.Result,
                     TestDate = x.TestDate,
                 }).ToListAsync();
@@ -112,7 +113,8 @@ namespace DCAS_PracticalExam.Repository
                 var result = await db.EvaluationInstructorsFields.Select(x => new EvaluationResult
                 {
                     ID = x.ID,
-                    CandidateName = x.Name,
+                    //CandidateName = x.Name,
+                    CRMRequest = x.CRMRequest,
                     Result = x.Result,
                     TestDate = x.EvaluationDate,
                 }).ToListAsync();
@@ -132,7 +134,8 @@ namespace DCAS_PracticalExam.Repository
                 var result = await db.MedicalAssessmentEvaluationFields.Select(x => new EvaluationResult
                 {
                     ID = x.ID,
-                    CandidateName = x.CandidateName,
+                    //CandidateName = x.CandidateName,
+                    CRMRequest = x.CRMRequest,
                     Result = x.Result,
                     TestDate = x.TestDate,
                 }).ToListAsync();
@@ -152,7 +155,8 @@ namespace DCAS_PracticalExam.Repository
                 var result = await db.TraumaAssessmentEvaluationFields.Select(x => new EvaluationResult
                 {
                     ID = x.ID,
-                    CandidateName = x.CandidateName,
+                    //CandidateName = x.CandidateName,
+                    CRMRequest = x.CRMRequest,
                     Result = x.Result,
                     TestDate = x.TestDate,
                 }).ToListAsync();

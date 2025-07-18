@@ -341,6 +341,26 @@ namespace DCAS_PracticalExam.Controllers
             string otp = OtpGenerator.GenerateOTP();
             string AppId = Request.Query["AppId"];
             var uInfo = db.Users.Where(s => s.Id == AppId).FirstOrDefault();
+
+            if (uInfo == null)
+            {
+                TempData["errMsg"] = "User not found.";
+                return RedirectToAction("Index");
+            }
+
+            // Format the phone number
+            string phone = uInfo.PhoneNumber;
+            if (!string.IsNullOrEmpty(phone))
+            {
+                if (phone.StartsWith("+971"))
+                    phone = phone.Replace("+971", "");
+                else if (phone.StartsWith("971"))
+                    phone = phone.Replace("971", "");
+
+                if (!phone.StartsWith("0"))
+                    phone = "0" + phone;
+            }
+
             Otp createOTP = new Otp
             {
                 Code = otp,
@@ -367,25 +387,25 @@ namespace DCAS_PracticalExam.Controllers
                 //             $"Dubai Corporation for Ambulance Services"
                 //}, _logger);
                 var body = $"Dear {uInfo.FirstName + " " + uInfo.LastName} <br>" +
-                             $"Your OTP is: {otp} <br>" +
+                             $"Your OTP is: {otp}<br>" +
                              $"Thank You <br> " +
                              $"Dubai Corporation for Ambulance Services";
 
-                EmailOptions ops = new EmailOptions();
-                ops.toEmail = uInfo.Email;
-                //ops.attachment = pdfBytes;
-                ops.subject = "Verification OTP";
-                ops.body = body;
-                //ops.licenceNo = attachmentName;
-               
+                EmailOptions ops = new EmailOptions
+                {
+                    toEmail = uInfo.Email,
+                    subject = "Verification OTP",
+                    body = body
+                };
+
                 string message = await emailSender.SendEmailPublic(ops);
                 SmsDto sms = new SmsDto()
                 {
-                    _message = $"Dear Staff {uInfo.FirstName} <br>" +
+                    _message = $"Dear {uInfo.FirstName + " " + uInfo.LastName}\n" +
                    $"Your OTP is: {otp}\n" +
-                   $"Thank You <br> " +
+                   $"Thank You \n " +
                    $"Dubai Corporation for Ambulance Services",
-                    _mobileNo = uInfo.PhoneNumber,
+                    _mobileNo = phone
                 };
 
                 SmsService.Send(_config, sms);
