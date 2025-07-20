@@ -1,4 +1,5 @@
 ﻿using DCAS_PracticalExam.Context;
+using DCAS_PracticalExam.DTOs;
 using DCAS_PracticalExam.General;
 using DCAS_PracticalExam.Helper_Model;
 using DCAS_PracticalExam.HelperModels;
@@ -28,9 +29,10 @@ namespace DCAS_PracticalExam.Controllers
         private readonly ILogger<FormController> _logger;
         private readonly IConfiguration _config;
         private readonly MailSender emailSender;
+        private readonly IApiService _apiService;
 
         //private readonly HomeController home;
-        public FormController(IFormRepository formRepository, PracticalExamContext context, ILogger<FormController> logger, IConfiguration config, IOptions<SmtpConfig> smtpConfigModel)
+        public FormController(IFormRepository formRepository, PracticalExamContext context, ILogger<FormController> logger, IConfiguration config, IOptions<SmtpConfig> smtpConfigModel, IApiService apiService)
         {
             this.formRepository = formRepository;
             db = context;
@@ -38,7 +40,7 @@ namespace DCAS_PracticalExam.Controllers
             _logger = logger;
             _config = config;
             emailSender = new MailSender(smtpConfigModel);
-
+            _apiService = apiService;
         }
         public IActionResult Index()
         {
@@ -61,10 +63,20 @@ namespace DCAS_PracticalExam.Controllers
             if (ModelState.IsValid)
             {
                 var result = await formRepository.InsertCPREvaluation(data);
-
+                
+                //this work for api cunsume code 
+                var crmResponse = await UpdateLicenseResultAsync(data.CRMRequest, data.Result);
                 if (result == "Success")
                 {
-                    TempData["Message"] = await home.Notify("Data Saved Succesfully","Success");
+                    
+                    if (crmResponse.Contains("Success"))
+                    {
+                        TempData["Message"] = await home.Notify("Result is Updated Successfully.", "Success");
+                    }
+                    else
+                    {
+                        TempData["Message"] = await home.Notify(crmResponse, "Error", NotificationType.error);
+                    }
                     ModelState.Clear();
                     
                 }
@@ -506,5 +518,24 @@ namespace DCAS_PracticalExam.Controllers
             return RedirectToAction("VerifyOTP", new { AppId = model.employeeId });
 
         }
+        #region Helping Method
+        private async Task<string> UpdateLicenseResultAsync(string requestNumber, string result)
+        {
+            var dto = new LicenseResultDto
+            {
+                RequestNumber = requestNumber,
+                TestResult = result
+            };
+
+            var CrmResult = await _apiService.PostAsync<LicenseResultDto, string>(
+                "api/AppForLicense/UpdateStageAndStatus",
+                dto
+            );
+
+            return CrmResult;
+        }
+
+        #endregion
+
     }
 }
