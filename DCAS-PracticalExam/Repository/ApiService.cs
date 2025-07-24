@@ -36,10 +36,15 @@ namespace DCAS_PracticalExam.Repository
         void SetRequestHeaders(HttpClient client)
         {
             client.BaseAddress = new Uri(_config["APIBaseUrl"]);
-            if (int.TryParse(_config["Timeout"], out int timeoutSeconds))
-            {
-                client.Timeout = TimeSpan.FromSeconds(timeoutSeconds);
-            }
+
+#if (DEBUG)
+            client.Timeout = TimeSpan.FromMinutes(10);
+#else
+                    string httpRequestExpire = _config["HttpReqExpireTime"] ?? "5";
+
+                    client.Timeout = TimeSpan.FromMinutes(Convert.ToInt16(httpRequestExpire));
+#endif
+          
             client.DefaultRequestHeaders.Add("x-Gateway-APIKey", _config["ApiKeyValue"]);
 
         }

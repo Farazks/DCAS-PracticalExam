@@ -38,7 +38,7 @@ namespace DCAS_PracticalExam.Models
         public string Question10Check { get; set; }
         public string Comments { get; set; }
         public string Result{ get; set; }
-        public string Assessor1 { get; set; }
+        public string Assessor { get; set; }
         public Byte[] ExaminerSign { get; set; }
     }
 }

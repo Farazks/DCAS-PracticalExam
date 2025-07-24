@@ -26,7 +26,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="CRMRequest">CRM Request</label>
-                    <input asp-for="CRMRequest" runat="server" type="text" value="" tabindex="1" class="form-control" id="crmRequestInput" />
+                    <input asp-for="CRMRequest" runat="server" type="text" value="" tabindex="1" class="form-control" id="crmRequestInput" required/>
                     <span asp-validation-for="CRMRequest" class="text-danger"></span>
                 </div>
             </div>
@@ -547,16 +547,16 @@
             <div style="text-align: right; margin-top: 10px " class="row">
                 <div class="text_area col-6">
                     <div>
-                        <label asp-for="Assessor1">Name Of Assesor 1</label>
+                        <label asp-for="Assessor">Name Of Assesor</label>
                         <div class="clear_area"></div>
-                        <select asp-for="Assessor1" class="form-control">
+                        <select asp-for="Assessor" class="form-control">
                             <option value="" selected="selected">Select Assessor</option>
                             <option value="Zulfiya Hakim Mirza">Zulfiya Hakim Mirza</option>
                             <option value="Sudhakar Philpdhas">Sudhakar Philpdhas</option>
                             <option value="Nawal Murad Al Balooshi">Nawal Murad Al Balooshi</option>
                             <option value="Mona Othman Abdul Qader">Mona Othman Abdul Qader</option>
-                            <option value="Khaled Jamshid Rahravan">Khaled Jamshid Rahravan</option>
-                            <option value="Saeeda Buti Saeed">Saeeda Buti Saeed</option>
+                        <option value="Ali Moosa Al Hafidh">Ali Moosa Al Hafidhi</option>
+                        <option value="Khalid Eissa Ghalib Bin Salmeen Al Mahri">Khalid Eissa Ghalib Bin Salmeen Al Mahri</option>
                         </select>
                     </div>
                     <div class="clear_area"></div>
@@ -585,16 +585,16 @@
                 </div>
                 <div class="text_area col-6">
                     <div>
-                        <label asp-for="Assessor2">Name Of Assesor 2</label>
+                    <label asp-for="Monitor">Name Of Monitor</label>
                         <div class="clear_area"></div>
-                        <select asp-for="Assessor2" class="form-control">
-                            <option value="" selected="selected">Select Assessor</option>
+                    <select asp-for="Monitor" class="form-control">
+                        <option value="" selected="selected">Select Monitor</option>
                             <option value="Zulfiya Hakim Mirza">Zulfiya Hakim Mirza</option>
                             <option value="Sudhakar Philpdhas">Sudhakar Philpdhas</option>
                             <option value="Nawal Murad Al Balooshi">Nawal Murad Al Balooshi</option>
                             <option value="Mona Othman Abdul Qader">Mona Othman Abdul Qader</option>
-                            <option value="Khaled Jamshid Rahravan">Khaled Jamshid Rahravan</option>
-                            <option value="Saeeda Buti Saeed">Saeeda Buti Saeed</option>
+                        <option value="Ali Moosa Al Hafidh">Ali Moosa Al Hafidhi</option>
+                        <option value="Khalid Eissa Ghalib Bin Salmeen Al Mahri">Khalid Eissa Ghalib Bin Salmeen Al Mahri</option>
                         </select>
                     </div>
                     <div class="clear_area"></div>
@@ -630,7 +630,7 @@
                 Scanned and filed<br />
             </div>
             <div class="mt-4">
-                <button id="saveForm" style="display: block; margin: 0 auto" runat="server" Text="Submit" type="button"
+                <button id="saveForm" style="display: block; margin: 0 auto" runat="server" Text="Submit"
                         class="btn btn-primary">
                     Submit
                 </button>
@@ -660,7 +660,7 @@
 
 
             if (signaturePad.isEmpty()) {
-                $("#signature1-validation").text("Signature of Assessor 1 is required.");
+                $("#signature1-validation").text("Signature of Assessor is required.");
                 $("[Id*=ImageValInspector1]").val("_blank");
             } else {
                 var base64 = $("#sigcanvas")[0].toDataURL();
@@ -669,7 +669,7 @@
             }
 
             if (signaturePadCustomer.isEmpty()) {
-                $("#signature2-validation").text("Signature of Assessor 2 is required.");
+                $("#signature2-validation").text("Signature of Monitor is required.");
                 $("[Id*=ImageValCustomer]").val("_blank");
             } else {
                 var base64C = $("#canvasCustomer")[0].toDataURL();

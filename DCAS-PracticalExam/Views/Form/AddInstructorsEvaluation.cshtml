@@ -69,7 +69,7 @@
                                style="color: black; font-size: 0.9rem; font-weight: bold">CRM Request</label>
                     </td>
                     <td width="30%">
-                        <input runat="server" id="CrmRequest" tabindex="1" asp-for="CRMRequest" class="form-control" type="text" />
+                        <input runat="server" id="CrmRequest" tabindex="1" asp-for="CRMRequest" class="form-control" type="text" required/>
                         <span asp-validation-for="CRMRequest" class="text-danger"></span>
                     </td>
                 </tr>
@@ -413,16 +413,16 @@
                 <div style="text-align: right; margin-top: 20px" class="p-2">
                     <div class="text_area">
                         <div>
-                            <label asp-for="Assessor1">Name Of Assesor 1</label>
+                            <label asp-for="Assessor">Name Of Assesor</label>
                             <div class="clear_area"></div>
-                            <select asp-for="Assessor1" class="form-control">
+                            <select asp-for="Assessor" class="form-control">
                                 <option value="" selected="selected">Select Assessor</option>
                                 <option value="Zulfiya Hakim Mirza">Zulfiya Hakim Mirza</option>
                                 <option value="Sudhakar Philpdhas">Sudhakar Philpdhas</option>
                                 <option value="Nawal Murad Al Balooshi">Nawal Murad Al Balooshi</option>
                                 <option value="Mona Othman Abdul Qader">Mona Othman Abdul Qader</option>
-                                <option value="Khaled Jamshid Rahravan">Khaled Jamshid Rahravan</option>
-                                <option value="Saeeda Buti Saeed">Saeeda Buti Saeed</option>
+                                <option value="Ali Moosa Al Hafidh">Ali Moosa Al Hafidhi</option>
+                                <option value="Khalid Eissa Ghalib Bin Salmeen Al Mahri">Khalid Eissa Ghalib Bin Salmeen Al Mahri</option>
                             </select>
                         </div>
                         <div>
@@ -513,7 +513,7 @@
             let valid = true;
 
             if (signaturepadExaminer.isEmpty()) {
-                $("#ExaminerSignError").text("Signature of Assessor 1 is required.");
+                $("#ExaminerSignError").text("Signature of Assessor is required.");
                 $("[id='ImageValExaminer']").val("_blank");
                 valid = false;
             } else {

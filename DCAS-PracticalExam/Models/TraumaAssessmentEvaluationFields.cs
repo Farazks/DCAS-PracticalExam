@@ -63,11 +63,11 @@ namespace DCAS_PracticalExam.Models
         public bool CriteriaCheck6 { get; set; }
         public bool CriteriaCheck7 { get; set; }
         public bool CriteriaCheck8 { get; set; }
-        public string Assessor1 { get; set; }
-        public string Assessor2 { get; set; }
+        public string Assessor { get; set; }
+        public string Monitor { get; set; }
         public string Comments { get; set; }
         public string Result { get; set; }
-        public Byte[] Assessor1Sign { get; set; }
-        public Byte[] Assessor2Sign { get; set; }
+        public Byte[] AssessorSign { get; set; }
+        public Byte[] MonitorSign { get; set; }
     }
 }

@@ -84,11 +84,11 @@ namespace DCAS_PracticalExam
         {
 
             // AUTO MIGRATION
-            //using (var scope = serviceProvider.CreateScope())
-            //{
-            //    var dbContext = scope.ServiceProvider.GetRequiredService<PracticalExamContext>();
-            //    dbContext.Database.Migrate(); // Apply any pending migrations
-            //}
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<PracticalExamContext>();
+                dbContext.Database.Migrate(); // Apply any pending migrations
+            }
 
             if (env.IsDevelopment())
             {

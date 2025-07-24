@@ -59,41 +59,64 @@ namespace DCAS_PracticalExam.Controllers
         [Authorize]
         public async Task<IActionResult> AddCPRAssessment(CPRAssessmentEvaluationFields data)
         {
+            _logger.LogInformation("AddInstructorsEvaluation started.");
             Notifications home = new Notifications(configuration);
+
+
             if (ModelState.IsValid)
             {
+                _logger.LogInformation("ModelState is valid.");
                 var result = await formRepository.InsertCPREvaluation(data);
-                
-                //this work for api cunsume code 
-                var crmResponse = await UpdateLicenseResultAsync(data.CRMRequest, data.Result);
+                _logger.LogInformation("InsertInstructorsEvaluation returned: {Result}", result);
+
                 if (result == "Success")
                 {
-                    
-                    if (crmResponse.Contains("Success"))
+                    try
                     {
+                        _logger.LogInformation("Calling UpdateLicenseResultAsync with CRMRequest: {CRMRequest}, Result: {Result}", data.CRMRequest, data.Result);
+                        //this work for api consume code 
+                        var crmResponse = await UpdateLicenseResultAsync(data.CRMRequest, data.Result);
+                        _logger.LogInformation("UpdateLicenseResultAsync returned: {CrmResponse}", crmResponse);
+
+                        if (crmResponse.Contains("Success"))
+                    {
+
                         TempData["Message"] = await home.Notify("Result is Updated Successfully.", "Success");
-                    }
-                    else
+                        _logger.LogInformation("Result updated successfully.");
+
+                        }
+                        else
                     {
                         TempData["Message"] = await home.Notify(crmResponse, "Error", NotificationType.error);
+                        _logger.LogWarning("CRM response error: {CrmResponse}", crmResponse);
+
+                        }
+                        ModelState.Clear();    
+                }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Exception occurred during UpdateLicenseResultAsync.");
+                        TempData["Message"] = await home.Notify(ex.Message, "Error", NotificationType.error);
                     }
-                    ModelState.Clear();
-                    
                 }
                 else
                 {
+                    _logger.LogWarning("InsertInstructorsEvaluation did not return success. Result: {Result}", result);
                     foreach (var errorMessage in result)
                     {
                         ModelState.AddModelError("", errorMessage.ToString());
+                        _logger.LogWarning("ModelError added: {ErrorMessage}", errorMessage.ToString());
                         return View(data);
                     };
                 }
             }
             else
             {
+                _logger.LogWarning("ModelState is invalid.");
                 ModelState.AddModelError("", "Model State Not Valid");
             }
-                return View();
+            _logger.LogInformation("Returning view from AddInstructorsEvaluation.");
+            return View();
         }
 
 
@@ -102,7 +125,7 @@ namespace DCAS_PracticalExam.Controllers
         {
             var r = db.CPRAssessmentEvaluationFields.ToList();
             var result = r[0];
-            string imageBase64Data = Convert.ToBase64String(result.Assessor1Sign);
+            string imageBase64Data = Convert.ToBase64String(result.AssessorSign);
 
             string imageDataURL = string.Format("data:image/jpg;base64,{0}",imageBase64Data);
 
@@ -155,31 +178,64 @@ namespace DCAS_PracticalExam.Controllers
         [Route("AddInstructorsEvaluation")]
         public async Task<IActionResult> AddInstructorsEvaluation(EvaluationInstructorsFields data)
         {
-            Notifications home = new Notifications(configuration);
+            _logger.LogInformation("AddInstructorsEvaluation started.");
+               Notifications home = new Notifications(configuration);
 
             if (ModelState.IsValid)
             {
+                _logger.LogInformation("ModelState is valid.");
                 var result = await formRepository.InsertInstructorsEvaluation(data);
+                _logger.LogInformation("InsertInstructorsEvaluation returned: {Result}", result);
 
                 if (result == "Success")
                 {
-                    TempData["Message"] = await home.Notify("Data Saved Succesfully", "Success");
-                    ModelState.Clear();
+                    try
+                    {
+                        _logger.LogInformation("Calling UpdateLicenseResultAsync with CRMRequest: {CRMRequest}, Result: {Result}", data.CRMRequest, data.Result);
+
+                        //this work for api consume code 
+                        var crmResponse = await UpdateLicenseResultAsync(data.CRMRequest, data.Result);
+                        _logger.LogInformation("UpdateLicenseResultAsync returned: {CrmResponse}", crmResponse);
+                       
+                        
+                        if (crmResponse.Contains("Success"))
+                        {
+                            TempData["Message"] = await home.Notify("Result is Updated Successfully.", "Success");
+                            _logger.LogInformation("Result updated successfully.");
+                        }
+                        else
+                        {
+                            TempData["Message"] = await home.Notify(crmResponse, "Error", NotificationType.error);
+                            _logger.LogWarning("CRM response error: {CrmResponse}", crmResponse);
+                        }
+
+
+                        ModelState.Clear();
+                    }
+                    catch (Exception ex) 
+                    {
+                        _logger.LogError(ex, "Exception occurred during UpdateLicenseResultAsync.");
+                        TempData["Message"] = await home.Notify(ex.Message, "Error", NotificationType.error);
+                    }
 
                 }
                 else
                 {
+                    _logger.LogWarning("InsertInstructorsEvaluation did not return success. Result: {Result}", result);
                     foreach (var errorMessage in result)
                     {
                         ModelState.AddModelError("", errorMessage.ToString());
+                        _logger.LogWarning("ModelError added: {ErrorMessage}", errorMessage.ToString());
                         return View(data);
                     };
                 }
             }
             else
             {
+                _logger.LogWarning("ModelState is invalid.");
                 ModelState.AddModelError("", "Model State Not Valid");
             }
+            _logger.LogInformation("Returning view from AddInstructorsEvaluation.");
             return View();
         }
 
@@ -195,30 +251,59 @@ namespace DCAS_PracticalExam.Controllers
         [Route("AddMedicalAssessment")]
         public async Task<IActionResult> AddMedicalAssessment(MedicalAssessmentEvaluationFields data)
         {
+            _logger.LogInformation("AddInstructorsEvaluation started.");
             Notifications home = new Notifications(configuration);
             if (ModelState.IsValid)
             {
+                _logger.LogInformation("ModelState is valid.");
                 var result = await formRepository.InsertMedicalAssessment(data);
+                _logger.LogInformation("InsertInstructorsEvaluation returned: {Result}", result);
 
                 if (result == "Success")
                 {
-                    TempData["Message"] = await home.Notify("Data Saved Succesfully", "Success");
-                    ModelState.Clear();
+                    try
+                    {
+                        _logger.LogInformation("Calling UpdateLicenseResultAsync with CRMRequest: {CRMRequest}, Result: {Result}", data.CRMRequest, data.Result);
+                        //this work for API consume Code
+                        var crmResponse = await UpdateLicenseResultAsync(data.CRMRequest, data.Result);
+                        _logger.LogInformation("UpdateLicenseResultAsync returned: {CrmResponse}", crmResponse);
+                       
+                    if (crmResponse.Contains("Success"))
+                    {
+                        TempData["Message"] = await home.Notify("Result is Updated Successfully.", "Success");
+                        _logger.LogInformation("Result updated successfully.");
+                        }
+                        else 
+                    {
+                        TempData["Message"] = await home.Notify(crmResponse, "Error", NotificationType.error);
+                        _logger.LogWarning("CRM response error: {CrmResponse}", crmResponse);
 
+                        }
+                        ModelState.Clear();
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Exception occurred during UpdateLicenseResultAsync.");
+                        TempData["Message"] = await home.Notify(ex.Message, "Error", NotificationType.error);
+                    }
                 }
                 else
                 {
+                    _logger.LogWarning("InsertInstructorsEvaluation did not return success. Result: {Result}", result);
                     foreach (var errorMessage in result)
                     {
                         ModelState.AddModelError("", errorMessage.ToString());
+                        _logger.LogWarning("ModelError added: {ErrorMessage}", errorMessage.ToString());
                         return View(data);
-                    };
+                    }
                 }
             }
             else
             {
+                _logger.LogWarning("ModelState is invalid.");
                 ModelState.AddModelError("", "Model State Not Valid");
             }
+            _logger.LogInformation("Returning view from AddInstructorsEvaluation.");
             return View();
         }
 
@@ -234,29 +319,63 @@ namespace DCAS_PracticalExam.Controllers
         [Route("AddTraumaAssessment")]
         public async Task<IActionResult> AddTraumaAssessment(TraumaAssessmentEvaluationFields data)
         {
+            _logger.LogInformation("AddInstructorsEvaluation started.");
             Notifications home = new Notifications(configuration);
+
+
             if (ModelState.IsValid)
             {
+                _logger.LogInformation("ModelState is valid.");
                 var result = await formRepository.InsertTraumaAssessment(data);
+                _logger.LogInformation("InsertInstructorsEvaluation returned: {Result}", result);
 
                 if (result == "Success")
                 {
-                    TempData["Message"] = await home.Notify("Data Saved Succesfully", "Success");
-                    ModelState.Clear();
+                    try
+                    {
+                        _logger.LogInformation("Calling UpdateLicenseResultAsync with CRMRequest: {CRMRequest}, Result: {Result}", data.CRMRequest, data.Result);
+
+                        //this work for API consume code 
+                        var crmResponse = await UpdateLicenseResultAsync(data.CRMRequest, data.Result);
+                        _logger.LogInformation("UpdateLicenseResultAsync returned: {CrmResponse}", crmResponse);
+
+                   if (crmResponse.Contains("Success"))
+                    {
+                        TempData["Message"] = await home.Notify("Result is Updated Successfully.", "Success");
+                        _logger.LogInformation("Result updated successfully.");
+
+                    }
+                    else
+                    {
+                        TempData["Message"] = await home.Notify(crmResponse, "Error", NotificationType.error);
+                        _logger.LogWarning("CRM response error: {CrmResponse}", crmResponse);
+
+                        }
+                        ModelState.Clear();
+                }
+                catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Exception occurred during UpdateLicenseResultAsync.");
+                        TempData["Message"] = await home.Notify(ex.Message, "Error", NotificationType.error);
+                    }
                 }
                 else
                 {
+                    _logger.LogWarning("InsertInstructorsEvaluation did not return success. Result: {Result}", result);
                     foreach (var errorMessage in result)
                     {
                         ModelState.AddModelError("", errorMessage.ToString());
+                        _logger.LogWarning("ModelError added: {ErrorMessage}", errorMessage.ToString());
                         return View(data);
-                    };
+                    }
                 }
             }
             else
             {
+                _logger.LogWarning("ModelState is invalid.");
                 ModelState.AddModelError("", "Model State Not Valid");
             }
+            _logger.LogInformation("Returning view from AddInstructorsEvaluation.");
             return View();
         }
 
@@ -268,10 +387,10 @@ namespace DCAS_PracticalExam.Controllers
             
             if(result != null)
             {
-                string Assessor1 = Convert.ToBase64String(result.Assessor1Sign);
+                string Assessor1 = Convert.ToBase64String(result.AssessorSign);
                 string Assessor1Sign = string.Format("data:image/jpg;base64,{0}", Assessor1);
 
-                string Assessor2 = Convert.ToBase64String(result.Assessor2Sign);
+                string Assessor2 = Convert.ToBase64String(result.MonitorSign);
                 string Assessor2Sign = string.Format("data:image/jpg;base64,{0}", Assessor2);
 
                 ViewBag.Sign1 = Assessor1Sign;
@@ -309,10 +428,10 @@ namespace DCAS_PracticalExam.Controllers
             
             if(result != null)
             {
-                string Assessor1 = Convert.ToBase64String(result.Assessor1Sign);
+                string Assessor1 = Convert.ToBase64String(result.AssessorSign);
                 string Assessor1Sign = string.Format("data:image/jpg;base64,{0}", Assessor1);
 
-                string Assessor2 = Convert.ToBase64String(result.Assessor2Sign);
+                string Assessor2 = Convert.ToBase64String(result.MonitorSign);
                 string Assessor2Sign = string.Format("data:image/jpg;base64,{0}", Assessor2);
 
                 ViewBag.Sign1 = Assessor1Sign;
@@ -332,10 +451,10 @@ namespace DCAS_PracticalExam.Controllers
 
             if(result != null)
             {
-                string Assessor1 = Convert.ToBase64String(result.Assessor1Sign);
+                string Assessor1 = Convert.ToBase64String(result.AssessorSign);
                 string Assessor1Sign = string.Format("data:image/jpg;base64,{0}", Assessor1);
 
-                string Assessor2 = Convert.ToBase64String(result.Assessor2Sign);
+                string Assessor2 = Convert.ToBase64String(result.MonitorSign);
                 string Assessor2Sign = string.Format("data:image/jpg;base64,{0}", Assessor2);
 
                 ViewBag.Sign1 = Assessor1Sign;
